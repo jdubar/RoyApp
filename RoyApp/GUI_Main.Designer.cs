@@ -53,7 +53,8 @@ namespace RoyApp
             this.bedtimeAvg = new System.Windows.Forms.TextBox();
             this.waketimeAvg = new System.Windows.Forms.TextBox();
             this.buttonClear = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonExport = new System.Windows.Forms.Button();
+            this.buttonImport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DataList
@@ -83,7 +84,7 @@ namespace RoyApp
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "ID";
+            this.columnHeader1.Text = "id";
             this.columnHeader1.Width = 85;
             // 
             // columnHeader2
@@ -115,7 +116,7 @@ namespace RoyApp
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(274, 302);
+            this.label1.Location = new System.Drawing.Point(277, 302);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(210, 15);
             this.label1.TabIndex = 1;
@@ -125,7 +126,7 @@ namespace RoyApp
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 324);
+            this.label2.Location = new System.Drawing.Point(22, 342);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 15);
             this.label2.TabIndex = 2;
@@ -135,7 +136,7 @@ namespace RoyApp
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(125, 323);
+            this.label3.Location = new System.Drawing.Point(128, 341);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 15);
             this.label3.TabIndex = 3;
@@ -145,7 +146,7 @@ namespace RoyApp
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(231, 323);
+            this.label4.Location = new System.Drawing.Point(234, 341);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 15);
             this.label4.TabIndex = 4;
@@ -154,7 +155,7 @@ namespace RoyApp
             // bedtimeId
             // 
             this.bedtimeId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bedtimeId.Location = new System.Drawing.Point(19, 342);
+            this.bedtimeId.Location = new System.Drawing.Point(22, 360);
             this.bedtimeId.Name = "bedtimeId";
             this.bedtimeId.Size = new System.Drawing.Size(100, 23);
             this.bedtimeId.TabIndex = 5;
@@ -162,7 +163,7 @@ namespace RoyApp
             // bedtime
             // 
             this.bedtime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bedtime.Location = new System.Drawing.Point(125, 341);
+            this.bedtime.Location = new System.Drawing.Point(128, 359);
             this.bedtime.Name = "bedtime";
             this.bedtime.Size = new System.Drawing.Size(100, 23);
             this.bedtime.TabIndex = 6;
@@ -171,7 +172,7 @@ namespace RoyApp
             // waketime
             // 
             this.waketime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.waketime.Location = new System.Drawing.Point(231, 341);
+            this.waketime.Location = new System.Drawing.Point(234, 359);
             this.waketime.Name = "waketime";
             this.waketime.Size = new System.Drawing.Size(100, 23);
             this.waketime.TabIndex = 7;
@@ -180,7 +181,7 @@ namespace RoyApp
             // buttonAdd
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonAdd.Location = new System.Drawing.Point(337, 339);
+            this.buttonAdd.Location = new System.Drawing.Point(340, 357);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 8;
@@ -192,7 +193,7 @@ namespace RoyApp
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(61, 375);
+            this.label5.Location = new System.Drawing.Point(64, 393);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(58, 15);
             this.label5.TabIndex = 9;
@@ -202,7 +203,7 @@ namespace RoyApp
             // 
             this.bedtimeDec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bedtimeDec.Enabled = false;
-            this.bedtimeDec.Location = new System.Drawing.Point(125, 372);
+            this.bedtimeDec.Location = new System.Drawing.Point(128, 390);
             this.bedtimeDec.Name = "bedtimeDec";
             this.bedtimeDec.Size = new System.Drawing.Size(100, 23);
             this.bedtimeDec.TabIndex = 10;
@@ -211,7 +212,7 @@ namespace RoyApp
             // 
             this.waketimeDec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.waketimeDec.Enabled = false;
-            this.waketimeDec.Location = new System.Drawing.Point(231, 372);
+            this.waketimeDec.Location = new System.Drawing.Point(234, 390);
             this.waketimeDec.Name = "waketimeDec";
             this.waketimeDec.Size = new System.Drawing.Size(100, 23);
             this.waketimeDec.TabIndex = 11;
@@ -220,7 +221,7 @@ namespace RoyApp
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(483, 339);
+            this.label6.Location = new System.Drawing.Point(486, 357);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 15);
             this.label6.TabIndex = 12;
@@ -230,7 +231,7 @@ namespace RoyApp
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(483, 372);
+            this.label7.Location = new System.Drawing.Point(486, 390);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(109, 15);
             this.label7.TabIndex = 13;
@@ -240,7 +241,7 @@ namespace RoyApp
             // 
             this.bedtimeAvg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bedtimeAvg.Enabled = false;
-            this.bedtimeAvg.Location = new System.Drawing.Point(592, 335);
+            this.bedtimeAvg.Location = new System.Drawing.Point(595, 353);
             this.bedtimeAvg.Name = "bedtimeAvg";
             this.bedtimeAvg.Size = new System.Drawing.Size(100, 23);
             this.bedtimeAvg.TabIndex = 14;
@@ -250,7 +251,7 @@ namespace RoyApp
             // 
             this.waketimeAvg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.waketimeAvg.Enabled = false;
-            this.waketimeAvg.Location = new System.Drawing.Point(592, 364);
+            this.waketimeAvg.Location = new System.Drawing.Point(595, 382);
             this.waketimeAvg.Name = "waketimeAvg";
             this.waketimeAvg.Size = new System.Drawing.Size(100, 23);
             this.waketimeAvg.TabIndex = 15;
@@ -261,7 +262,7 @@ namespace RoyApp
             this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonClear.Image = ((System.Drawing.Image)(resources.GetObject("buttonClear.Image")));
             this.buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonClear.Location = new System.Drawing.Point(698, 335);
+            this.buttonClear.Location = new System.Drawing.Point(698, 305);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(90, 23);
             this.buttonClear.TabIndex = 16;
@@ -270,24 +271,38 @@ namespace RoyApp
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
-            // button3
+            // buttonExport
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(698, 364);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(90, 23);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Export";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonExport.Image = ((System.Drawing.Image)(resources.GetObject("buttonExport.Image")));
+            this.buttonExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonExport.Location = new System.Drawing.Point(698, 381);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(90, 23);
+            this.buttonExport.TabIndex = 17;
+            this.buttonExport.Text = "Export";
+            this.buttonExport.UseVisualStyleBackColor = true;
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
+            // 
+            // buttonImport
+            // 
+            this.buttonImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonImport.Location = new System.Drawing.Point(698, 352);
+            this.buttonImport.Name = "buttonImport";
+            this.buttonImport.Size = new System.Drawing.Size(90, 23);
+            this.buttonImport.TabIndex = 18;
+            this.buttonImport.Text = "Import";
+            this.buttonImport.UseVisualStyleBackColor = true;
+            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
             // 
             // GUI_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 421);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttonImport);
+            this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.waketimeAvg);
             this.Controls.Add(this.bedtimeAvg);
@@ -334,13 +349,14 @@ namespace RoyApp
         private System.Windows.Forms.TextBox bedtimeAvg;
         private System.Windows.Forms.TextBox waketimeAvg;
         private System.Windows.Forms.Button buttonClear;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.Button buttonImport;
     }
 }
 

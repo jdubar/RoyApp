@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RoyApp
+﻿namespace RoyApp
 {
-    public class ListItems
+    public class ListviewItems
     {
         public string listId { get; set; }
         public string bedtimeRaw { get; set; }

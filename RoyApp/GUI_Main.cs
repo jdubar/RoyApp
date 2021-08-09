@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
 
@@ -34,7 +35,7 @@ namespace RoyApp
             var listViewItem = new ListViewItem(row);
             DataList.Items.Add(listViewItem);
 
-            List<ListItems> templist = new List<ListItems>();
+            List<ListviewItems> templist = new List<ListviewItems>();
 
             var collection = DataList.Items;
             foreach (var item in collection)
@@ -48,7 +49,7 @@ namespace RoyApp
                     stringlist.Add(subitem.Text);
                 }
 
-                ListItems tempobject = new ListItems()
+                ListviewItems tempobject = new ListviewItems()
                 {
                     listId = stringlist[0],
                     bedtimeRaw = stringlist[1],
@@ -98,6 +99,66 @@ namespace RoyApp
                 bedtimeDec.Text = DataList.SelectedItems[0].SubItems[2].Text;
                 waketime.Text = DataList.SelectedItems[0].SubItems[3].Text;
                 waketimeDec.Text = DataList.SelectedItems[0].SubItems[4].Text;
+            }
+        }
+
+        private void buttonExport_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            SaveFileDialog exportFileDialog = new SaveFileDialog
+            {
+                Filter = "csv files (*.csv)|*.csv",
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
+
+            if (exportFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = exportFileDialog.OpenFile()) != null)
+                {
+                    myStream.Close();
+                    try
+                    {
+                        ListviewActions.ListViewToCSV(DataList, exportFileDialog.FileName, false);
+                        MessageBox.Show("File successfully exported!");
+                    }
+                    catch
+                    {
+                        // Handle exception
+                    }
+
+                }
+            }
+        }
+
+        private void buttonImport_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = "";
+            openFileDialog.Filter = "csv files (*.csv)|*.csv";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Get the path of specified file
+                string filePath = openFileDialog.FileName;
+
+                //Read the contents of the file into a stream
+                var fileStream = openFileDialog.OpenFile();
+
+                using StreamReader reader = new StreamReader(fileStream);
+                // skip the header line
+                string headerLine = reader.ReadLine();
+                string currentLine;
+                // currentLine will be null when the StreamReader reaches the end of file
+                while ((currentLine = reader.ReadLine()) != null)
+                {
+                    string[] subs = currentLine.Split(',');
+                    string[] row = { subs[0].Trim('"'), subs[1].Trim('"'), subs[2].Trim('"'), subs[3].Trim('"'), subs[4].Trim('"'), subs[5].Trim('"') };
+                    var listViewItem = new ListViewItem(row);
+                    DataList.Items.Add(listViewItem);
+                }
             }
         }
     }
