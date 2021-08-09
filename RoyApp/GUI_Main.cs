@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace RoyApp
 {
-    public partial class Form1 : Form
+    public partial class GUI_Main : Form
     {
-        public Form1()
+        public GUI_Main()
         {
             InitializeComponent();
         }

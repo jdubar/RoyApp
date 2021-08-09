@@ -1,7 +1,7 @@
 ﻿
 namespace RoyApp
 {
-    partial class Form1
+    partial class GUI_Main
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,13 +29,14 @@ namespace RoyApp
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("ID");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Bedtime (Raw)");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Bedtime (Rec)");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Wake Time (Raw)");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Wake Time (Rec)");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Duration (Rec)");
-            this.listView1 = new System.Windows.Forms.ListView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI_Main));
+            this.DataList = new System.Windows.Forms.ListView();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,21 +56,48 @@ namespace RoyApp
             this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listView1
+            // DataList
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
-            this.listView1.Location = new System.Drawing.Point(12, 12);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(776, 287);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.DataList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DataList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6});
+            this.DataList.HideSelection = false;
+            this.DataList.Location = new System.Drawing.Point(12, 12);
+            this.DataList.Name = "DataList";
+            this.DataList.Size = new System.Drawing.Size(776, 287);
+            this.DataList.TabIndex = 0;
+            this.DataList.UseCompatibleStateImageBehavior = false;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "ID";
+            this.columnHeader1.Width = 85;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Bedtime (Raw)";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Bedtime (Rec)";
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Waketime (Raw)";
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Waketime (Rec)";
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Duration (Rec)";
             // 
             // label1
             // 
@@ -196,23 +224,28 @@ namespace RoyApp
             // 
             // button2
             // 
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.Location = new System.Drawing.Point(698, 330);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(90, 23);
             this.button2.TabIndex = 16;
             this.button2.Text = "Clear Data";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button3.Location = new System.Drawing.Point(698, 363);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(90, 23);
             this.button3.TabIndex = 17;
             this.button3.Text = "Export";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // GUI_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -234,9 +267,10 @@ namespace RoyApp
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.listView1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Controls.Add(this.DataList);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "GUI_Main";
+            this.Text = "RoyApp";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -244,7 +278,7 @@ namespace RoyApp
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView DataList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -262,6 +296,12 @@ namespace RoyApp
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
     }
 }
 
