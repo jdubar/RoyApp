@@ -31,38 +31,16 @@ namespace RoyApp
             double waketimeTotal = 0;
 
             string duration = TimeToData.TimeDuration(bedtimeDec.Text, waketimeDec.Text).ToString();
+
             string[] row = { bedtimeId.Text, bedtime.Text, bedtimeDec.Text, waketime.Text, waketimeDec.Text, duration };
             var listViewItem = new ListViewItem(row);
             DataList.Items.Add(listViewItem);
 
-            List<ListviewItems> templist = new List<ListviewItems>();
-
             var collection = DataList.Items;
             foreach (var item in collection)
             {
-                ListViewItem obj = (ListViewItem)item;
-                var subitems = obj.SubItems;
-                List<string> stringlist = new List<string>();
-
-                foreach (ListViewSubItem subitem in subitems)
-                {
-                    stringlist.Add(subitem.Text);
-                }
-
-                ListviewItems tempobject = new ListviewItems()
-                {
-                    listId = stringlist[0],
-                    bedtimeRaw = stringlist[1],
-                    bedtimeRec = stringlist[2],
-                    waketimeRaw = stringlist[3],
-                    waketimeRec = stringlist[4],
-                    duration = stringlist[5]
-
-                };
-                templist.Add(tempobject);
-                bedtimeTotal += Convert.ToDouble(stringlist[2]);
-                waketimeTotal += Convert.ToDouble(stringlist[4]);
-
+                bedtimeTotal += Convert.ToDouble(bedtimeDec.Text);
+                waketimeTotal += Convert.ToDouble(waketimeDec.Text);
             }
 
             bedtimeAvg.Text = TimeToData.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
@@ -85,21 +63,6 @@ namespace RoyApp
             DataList.Items.Clear();
             bedtimeAvg.Text = "";
             waketimeAvg.Text = "";
-        }
-
-        private void DataList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            ListViewHitTestInfo info = DataList.HitTest(e.X, e.Y);
-            ListViewItem item = info.Item;
-
-            if (item != null)
-            {
-                bedtimeId.Text = DataList.SelectedItems[0].SubItems[0].Text;
-                bedtime.Text = DataList.SelectedItems[0].SubItems[1].Text;
-                bedtimeDec.Text = DataList.SelectedItems[0].SubItems[2].Text;
-                waketime.Text = DataList.SelectedItems[0].SubItems[3].Text;
-                waketimeDec.Text = DataList.SelectedItems[0].SubItems[4].Text;
-            }
         }
 
         private void buttonExport_Click(object sender, EventArgs e)
@@ -151,6 +114,9 @@ namespace RoyApp
                 // skip the header line
                 string headerLine = reader.ReadLine();
                 string currentLine;
+
+                double bedtimeTotal = 0;
+                double waketimeTotal = 0;
                 // currentLine will be null when the StreamReader reaches the end of file
                 while ((currentLine = reader.ReadLine()) != null)
                 {
@@ -158,6 +124,21 @@ namespace RoyApp
                     string[] row = { subs[0].Trim('"'), subs[1].Trim('"'), subs[2].Trim('"'), subs[3].Trim('"'), subs[4].Trim('"'), subs[5].Trim('"') };
                     var listViewItem = new ListViewItem(row);
                     DataList.Items.Add(listViewItem);
+                    bedtimeTotal += Convert.ToDouble(subs[2].Trim('"'));
+                    waketimeTotal += Convert.ToDouble(subs[4].Trim('"'));
+                }
+                bedtimeAvg.Text = TimeToData.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
+                waketimeAvg.Text = TimeToData.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
+            }
+        }
+
+        private void DataList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Delete == e.KeyCode)
+            {
+                foreach (ListViewItem DataList in ((ListView)sender).SelectedItems)
+                {
+                    DataList.Remove();
                 }
             }
         }
