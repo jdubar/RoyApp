@@ -73,21 +73,17 @@ namespace RoyApp
                 RestoreDirectory = true
             };
 
-            if (exportFileDialog.ShowDialog() == DialogResult.OK)
+            if ((exportFileDialog.ShowDialog() == DialogResult.OK) && (myStream = exportFileDialog.OpenFile()) != null)
             {
-                if ((myStream = exportFileDialog.OpenFile()) != null)
+                myStream.Close();
+                try
                 {
-                    myStream.Close();
-                    try
-                    {
-                        ListviewActions.ListViewToCSV(DataList, exportFileDialog.FileName, false);
-                        MessageBox.Show("File successfully exported!");
-                    }
-                    catch
-                    {
-                        // Handle exception
-                    }
-
+                    ListviewActions.ListViewToCSV(DataList, exportFileDialog.FileName, false);
+                    MessageBox.Show("File successfully exported!");
+                }
+                catch
+                {
+                    // Handle exception
                 }
             }
         }
@@ -139,9 +135,9 @@ namespace RoyApp
         {
             if (Keys.Delete == e.KeyCode)
             {
-                foreach (ListViewItem DataList in ((ListView)sender).SelectedItems)
+                foreach (ListViewItem ListView in ((ListView)sender).SelectedItems)
                 {
-                    DataList.Remove();
+                    ListView.Remove();
                 }
             }
         }
