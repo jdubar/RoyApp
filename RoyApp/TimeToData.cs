@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RoyApp
 {
-    public class TimeToData
+    public static class TimeToData
     {
         public static double TimeToDecimal(string time)
         {
