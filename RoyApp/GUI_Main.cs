@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using static System.Windows.Forms.ListViewItem;
 
 namespace RoyApp
 {
@@ -13,19 +11,19 @@ namespace RoyApp
             InitializeComponent();
         }
 
-        private void bedTime_TextChanged(object sender, EventArgs e)
+        private void BedTime_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
             bedtimeDec.Text = TimeToData.TimeToDecimal(tb.Text).ToString();
         }
 
-        private void waketime_TextChanged(object sender, EventArgs e)
+        private void Waketime_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
             waketimeDec.Text = TimeToData.TimeToDecimal(tb.Text).ToString();
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
             double bedtimeTotal = 0;
             double waketimeTotal = 0;
@@ -58,14 +56,14 @@ namespace RoyApp
             }
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void ButtonClear_Click(object sender, EventArgs e)
         {
             DataList.Items.Clear();
             bedtimeAvg.Text = "";
             waketimeAvg.Text = "";
         }
 
-        private void buttonExport_Click(object sender, EventArgs e)
+        private void ButtonExport_Click(object sender, EventArgs e)
         {
             Stream myStream;
             SaveFileDialog exportFileDialog = new SaveFileDialog
@@ -94,7 +92,7 @@ namespace RoyApp
             }
         }
 
-        private void buttonImport_Click(object sender, EventArgs e)
+        private void ButtonImport_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = "";
@@ -104,15 +102,12 @@ namespace RoyApp
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //Get the path of specified file
-                string filePath = openFileDialog.FileName;
-
                 //Read the contents of the file into a stream
                 var fileStream = openFileDialog.OpenFile();
 
                 using StreamReader reader = new StreamReader(fileStream);
                 // skip the header line
-                string headerLine = reader.ReadLine();
+                reader.ReadLine();
                 string currentLine;
 
                 double bedtimeTotal = 0;
@@ -120,12 +115,20 @@ namespace RoyApp
                 // currentLine will be null when the StreamReader reaches the end of file
                 while ((currentLine = reader.ReadLine()) != null)
                 {
-                    string[] subs = currentLine.Split(',');
-                    string[] row = { subs[0].Trim('"'), subs[1].Trim('"'), subs[2].Trim('"'), subs[3].Trim('"'), subs[4].Trim('"'), subs[5].Trim('"') };
+                    string[] cols = currentLine.Split(',');
+                    // 0 - id, 1 - bedtime raw, 2 - waketime raw
+                    string[] row = { 
+                        cols[0].Trim('"'), 
+                        cols[1].Trim('"'), 
+                        TimeToData.TimeToDecimal(cols[1].Trim('"')).ToString(), 
+                        cols[2].Trim('"'), 
+                        TimeToData.TimeToDecimal(cols[2].Trim('"')).ToString(), 
+                        TimeToData.TimeDuration(TimeToData.TimeToDecimal(cols[1].Trim('"')).ToString(), TimeToData.TimeToDecimal(cols[2].Trim('"')).ToString()).ToString()
+                    };
                     var listViewItem = new ListViewItem(row);
                     DataList.Items.Add(listViewItem);
-                    bedtimeTotal += Convert.ToDouble(subs[2].Trim('"'));
-                    waketimeTotal += Convert.ToDouble(subs[4].Trim('"'));
+                    bedtimeTotal += Convert.ToDouble(row[2]);
+                    waketimeTotal += Convert.ToDouble(row[4]);
                 }
                 bedtimeAvg.Text = TimeToData.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
                 waketimeAvg.Text = TimeToData.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();

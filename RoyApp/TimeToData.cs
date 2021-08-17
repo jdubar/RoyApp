@@ -3,18 +3,16 @@ using System.Linq;
 
 namespace RoyApp
 {
-    class TimeToData
+    static class TimeToData
     {
         public static double TimeToDecimal(string time)
         {
-            bool timeIsAM = true;
+            bool IsTimeAM = true;
             string timeNoSpace = time.Trim();
-            if (timeNoSpace.EndsWith("PM"))
+            if (timeNoSpace.EndsWith("PM") || (timeNoSpace.Length > 2 && Convert.ToDouble(timeNoSpace.Substring(0, 2)) > 12))
             {
-                timeIsAM = false;
+                IsTimeAM = false;
             }
-            char[] AMPM = { 'A', 'P', 'M' };
-            timeNoSpace.TrimEnd(AMPM);
 
             string timeNumsOnly = new string(time.Where(c => char.IsDigit(c)).ToArray());
 
@@ -27,7 +25,7 @@ namespace RoyApp
 
                 string hoursOnly = timeNumsOnly.Substring(0, (timeNumsOnly.Length - 2));
                 double hours = Convert.ToDouble(hoursOnly);
-                if (!timeIsAM && hours < 12)
+                if (!IsTimeAM && hours < 12)
                 {
                     hours += 12;
                 }

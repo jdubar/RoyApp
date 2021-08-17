@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace RoyApp
 {
-    class ListviewActions
+    static class ListviewActions
     {
         public static void ListViewToCSV(ListView listView, string filePath, bool includeHidden)
         {

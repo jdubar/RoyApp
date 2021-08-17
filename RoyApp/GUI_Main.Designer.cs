@@ -156,7 +156,7 @@ namespace RoyApp
             this.bedtime.Name = "bedtime";
             this.bedtime.Size = new System.Drawing.Size(100, 23);
             this.bedtime.TabIndex = 6;
-            this.bedtime.TextChanged += new System.EventHandler(this.bedTime_TextChanged);
+            this.bedtime.TextChanged += new System.EventHandler(this.BedTime_TextChanged);
             // 
             // waketime
             // 
@@ -165,7 +165,7 @@ namespace RoyApp
             this.waketime.Name = "waketime";
             this.waketime.Size = new System.Drawing.Size(100, 23);
             this.waketime.TabIndex = 7;
-            this.waketime.TextChanged += new System.EventHandler(this.waketime_TextChanged);
+            this.waketime.TextChanged += new System.EventHandler(this.Waketime_TextChanged);
             // 
             // buttonAdd
             // 
@@ -176,7 +176,7 @@ namespace RoyApp
             this.buttonAdd.TabIndex = 8;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
             // label5
             // 
@@ -258,7 +258,7 @@ namespace RoyApp
             this.buttonClear.Text = "Clear Data";
             this.buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.buttonClear.Click += new System.EventHandler(this.ButtonClear_Click);
             // 
             // buttonExport
             // 
@@ -271,7 +271,7 @@ namespace RoyApp
             this.buttonExport.TabIndex = 17;
             this.buttonExport.Text = "Export";
             this.buttonExport.UseVisualStyleBackColor = true;
-            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
+            this.buttonExport.Click += new System.EventHandler(this.ButtonExport_Click);
             // 
             // buttonImport
             // 
@@ -283,7 +283,7 @@ namespace RoyApp
             this.buttonImport.TabIndex = 18;
             this.buttonImport.Text = "Import";
             this.buttonImport.UseVisualStyleBackColor = true;
-            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
+            this.buttonImport.Click += new System.EventHandler(this.ButtonImport_Click);
             // 
             // GUI_Main
             // 

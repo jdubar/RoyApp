@@ -17,7 +17,10 @@ namespace RoyApp
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUI_Main());
+            GUI_Main f1 = new GUI_Main();
+            f1.Text = System.Windows.Forms.Application.ProductName + " v" + System.Windows.Forms.Application.ProductVersion;
+            Application.Run(f1);
+
         }
     }
 }
