@@ -5,10 +5,19 @@ using System.Windows.Forms;
 
 namespace RoyApp
 {
-    static class ListviewActions
+    public static class ListviewActions
     {
         public static void ListViewToCSV(ListView listView, string filePath, bool includeHidden)
         {
+            if (listView is null)
+            {
+                throw new ArgumentNullException(nameof(listView));
+            }
+
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or empty.", nameof(filePath));
+            }
             //make header string
             StringBuilder result = new StringBuilder();
             WriteCSVRow(result, listView.Columns.Count, i => includeHidden || listView.Columns[i].Width > 0, i => listView.Columns[i].Text);
@@ -20,8 +29,23 @@ namespace RoyApp
             File.WriteAllText(filePath, result.ToString());
         }
 
-        private static void WriteCSVRow(StringBuilder result, int itemsCount, Func<int, bool> isColumnNeeded, Func<int, string> columnValue)
+        public static void WriteCSVRow(StringBuilder result, int itemsCount, Func<int, bool> isColumnNeeded, Func<int, string> columnValue)
         {
+            if (result is null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (isColumnNeeded is null)
+            {
+                throw new ArgumentNullException(nameof(isColumnNeeded));
+            }
+
+            if (columnValue is null)
+            {
+                throw new ArgumentNullException(nameof(columnValue));
+            }
+
             bool isFirstTime = true;
             for (int i = 0; i < itemsCount; i++)
             {
