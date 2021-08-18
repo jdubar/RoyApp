@@ -51,5 +51,47 @@ namespace RoyApp.Tests
             double actual = TimeToData.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreEqual(expectedResult, actual);
         }
+
+        [TestMethod()]
+        public void TimeDuration_ShouldEqual_ExpectedDuration()
+        {
+            string enteredBedtimeRec = "12.75";
+            string enteredWaketimeRec = "13.75";
+            double expectedDuration = 1;
+
+            double actual = TimeToData.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
+            Assert.AreEqual(expectedDuration, actual);
+        }
+        [TestMethod()]
+        public void TimeDuration_ShouldNotEqual_ExpectedDuration()
+        {
+            string enteredBedtimeRec = "12.75";
+            string enteredWaketimeRec = "13.75";
+            double expectedDuration = 2;
+
+            double actual = TimeToData.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
+            Assert.AreNotEqual(expectedDuration, actual);
+        }
+
+        [TestMethod()]
+        public void TimeAverage_ShouldEqual_ExpectedAverage()
+        {
+            double bedtimeTotal = 50;
+            int bedtimeCount = 5;
+            double expectedAverage = 10;
+
+            double actual = TimeToData.TimeAverage(bedtimeTotal, bedtimeCount);
+            Assert.AreEqual(expectedAverage, actual);
+        }
+        [TestMethod()]
+        public void TimeAverage_ShouldNotEqual_ExpectedAverage()
+        {
+            double bedtimeTotal = 50;
+            int bedtimeCount = 5;
+            double expectedAverage = 5;
+
+            double actual = TimeToData.TimeAverage(bedtimeTotal, bedtimeCount);
+            Assert.AreNotEqual(expectedAverage, actual);
+        }
     }
 }
