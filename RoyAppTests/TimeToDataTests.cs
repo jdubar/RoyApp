@@ -1,5 +1,4 @@
-﻿using RoyApp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RoyApp.Tests
 {

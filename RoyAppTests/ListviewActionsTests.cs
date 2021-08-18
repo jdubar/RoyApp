@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RoyApp;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows.Forms;
 
 namespace RoyApp.Tests
 {
@@ -10,9 +8,38 @@ namespace RoyApp.Tests
     public class ListviewActionsTests
     {
         [TestMethod()]
-        public void ListViewToCSVTest()
+        public void ListViewToCSVTest_ListViewIsNull_ShouldThrowException()
         {
-            Assert.Fail();
+            ListView TestList = null;
+            var expectedParamName = "listView";
+            string FilePath = "C:\test.csv";
+            bool IncludeHidden = true;
+
+            try
+            {
+                ListviewActions.ListViewToCSV(TestList, FilePath, IncludeHidden);
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual(expectedParamName, ex.ParamName);
+            }
+        }
+        [TestMethod()]
+        public void ListViewToCSVTest_FilePathIsNull_ShouldThrowException()
+        {
+            ListView TestList = new ListView();
+            var expectedParamName = "filePath";
+            string FilePath = null;
+            bool IncludeHidden = true;
+
+            try
+            {
+                ListviewActions.ListViewToCSV(TestList, FilePath, IncludeHidden);
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual(expectedParamName, ex.ParamName);
+            }
         }
     }
 }
