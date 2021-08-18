@@ -9,7 +9,7 @@ namespace RoyApp
         {
             bool IsTimeAM = true;
             string timeNoSpace = time.Trim();
-            if (timeNoSpace.EndsWith("PM") || (timeNoSpace.Length > 2 && Convert.ToDouble(timeNoSpace.Substring(0, 2)) > 12))
+            if (timeNoSpace.EndsWith("PM"))
             {
                 IsTimeAM = false;
             }
@@ -18,6 +18,10 @@ namespace RoyApp
 
             if (timeNumsOnly.Length >= 3)
             {
+                if ((timeNumsOnly.Length > 3)  && (Convert.ToDouble(timeNumsOnly.Substring(0, 2)) > 12))
+                {
+                    IsTimeAM = false;
+                }
                 string minutesOnly = timeNumsOnly.Substring((timeNumsOnly.Length - 2), 2);
 
                 double minutesAsDouble = Convert.ToDouble(minutesOnly);
