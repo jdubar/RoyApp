@@ -27,11 +27,29 @@ namespace RoyApp.Tests
         [TestMethod()]
         public void BedtimeRaw_GreaterThanTwelve_ShouldEqual_ExpectedDecimal()
         {
-            string enteredBedtimeRaw = "13:45";
+            string enteredBedtimeRaw = "1345";
             double expectedBedtimeDec = 13.75;
 
             double actual = TimeToData.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreEqual(expectedBedtimeDec, actual);
+        }
+        [TestMethod()]
+        public void BedtimeRaw_AMPM_LessThanTwelve_ShouldEqual_ExpectedDecimal()
+        {
+            string enteredBedtimeRaw = "145PM";
+            double expectedBedtimeDec = 13.75;
+
+            double actual = TimeToData.TimeToDecimal(enteredBedtimeRaw);
+            Assert.AreEqual(expectedBedtimeDec, actual);
+        }
+        [TestMethod()]
+        public void BedtimeRaw_LessThanThreeChars_ShouldReturnZero()
+        {
+            string enteredBedtimeRaw = "1";
+            double expectedResult = 0;
+
+            double actual = TimeToData.TimeToDecimal(enteredBedtimeRaw);
+            Assert.AreEqual(expectedResult, actual);
         }
     }
 }
