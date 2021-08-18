@@ -37,16 +37,6 @@ namespace RoyApp
                 throw new ArgumentNullException(nameof(result));
             }
 
-            if (isColumnNeeded is null)
-            {
-                throw new ArgumentNullException(nameof(isColumnNeeded));
-            }
-
-            if (columnValue is null)
-            {
-                throw new ArgumentNullException(nameof(columnValue));
-            }
-
             bool isFirstTime = true;
             for (int i = 0; i < itemsCount; i++)
             {
