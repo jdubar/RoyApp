@@ -61,7 +61,7 @@ namespace RoyApp.Tests
             }
         }
         [TestMethod()]
-        public void WriteCSVRow_WriteTestString_StringValues_ShouldMatch()
+        public void WriteCSVRow_WriteSingleString_StringValues_ShouldMatch()
         {
             StringBuilderService service = new StringBuilderService();
             int TestItemCount = 1;
@@ -69,6 +69,27 @@ namespace RoyApp.Tests
             string TestString = "Testing";
             string expected = String.Format("\"{0}\"\r\n", TestString);
 
+
+            ListviewActions.WriteCSVRow(service, TestItemCount, i => TestIncludeHidden, i => TestString);
+            Assert.AreEqual(expected, service.ToString());
+        }
+        [TestMethod()]
+        public void WriteCSVRow_WriteMultipleStrings_StringValues_ShouldMatch()
+        {
+            StringBuilderService service = new StringBuilderService();
+            int TestItemCount = 3;
+            bool TestIncludeHidden = true;
+            string TestString = "Testing";
+            string expected = string.Empty;
+            for (int i = 0; i < TestItemCount; i++)
+            {
+                expected += String.Format("\"{0}\"", TestString);
+                if (i < (TestItemCount - 1))
+                {
+                    expected += ",";
+                }
+            }
+            expected += "\r\n";
 
             ListviewActions.WriteCSVRow(service, TestItemCount, i => TestIncludeHidden, i => TestString);
             Assert.AreEqual(expected, service.ToString());
