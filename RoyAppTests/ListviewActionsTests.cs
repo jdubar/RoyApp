@@ -60,5 +60,18 @@ namespace RoyApp.Tests
                 Assert.AreEqual(expectedParamName, ex.ParamName);
             }
         }
+        [TestMethod()]
+        public void WriteCSVRow_WriteTestString_StringValues_ShouldMatch()
+        {
+            StringBuilderService service = new StringBuilderService();
+            int TestItemCount = 1;
+            bool TestIncludeHidden = true;
+            string TestString = "Testing";
+            string expected = String.Format("\"{0}\"\r\n", TestString);
+
+
+            ListviewActions.WriteCSVRow(service, TestItemCount, i => TestIncludeHidden, i => TestString);
+            Assert.AreEqual(expected, service.ToString());
+        }
     }
 }
