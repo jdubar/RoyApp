@@ -54,9 +54,9 @@ namespace RoyApp.Tests
         [TestMethod()]
         public void TimeDuration_ShouldEqual_ExpectedDuration()
         {
-            string enteredBedtimeRec = "12.75";
-            string enteredWaketimeRec = "13.75";
-            double expectedDuration = 1;
+            string enteredBedtimeRec = "22";
+            string enteredWaketimeRec = "8";
+            double expectedDuration = 10;
 
             double actual = TimeToData.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
             Assert.AreEqual(expectedDuration, actual);
