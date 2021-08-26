@@ -41,9 +41,24 @@ namespace RoyApp
 
         public static double TimeDuration(string bedtimeRec, string waketimeRec)
         {
+            double duration;
             double bedtime = Convert.ToDouble(bedtimeRec);
             double waketime = Convert.ToDouble(waketimeRec);
-            double duration = Math.Round((waketime - bedtime), 2);
+            if (bedtime > 12)
+            {
+                if (waketime > 12)
+                {
+                    duration = Math.Round(((24 - waketime) - (24 - bedtime)), 2);
+                }
+                else
+                {
+                    duration = Math.Round(((24 - bedtime) + waketime), 2);
+                }
+            }
+            else
+            {
+                duration = Math.Round((waketime - bedtime), 2);
+            }
             return duration;
         }
 
