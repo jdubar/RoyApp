@@ -1,12 +1,13 @@
-﻿using System;
+﻿using RoyApp.Services;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
 namespace RoyApp
 {
-    public partial class GUI_Main : Form
+    public partial class Main : Form
     {
-        public GUI_Main()
+        public Main()
         {
             InitializeComponent();
         }
@@ -14,13 +15,13 @@ namespace RoyApp
         private void BedTime_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
-            bedtimeDec.Text = TimeToData.TimeToDecimal(tb.Text).ToString();
+            bedtimeDec.Text = DataService.TimeToDecimal(tb.Text).ToString();
         }
 
         private void Waketime_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
-            waketimeDec.Text = TimeToData.TimeToDecimal(tb.Text).ToString();
+            waketimeDec.Text = DataService.TimeToDecimal(tb.Text).ToString();
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e)
@@ -28,7 +29,7 @@ namespace RoyApp
             double bedtimeTotal = 0;
             double waketimeTotal = 0;
 
-            string duration = TimeToData.TimeDuration(bedtimeDec.Text, waketimeDec.Text).ToString();
+            string duration = DataService.TimeDuration(bedtimeDec.Text, waketimeDec.Text).ToString();
 
             string[] row = { bedtimeId.Text, bedtime.Text, bedtimeDec.Text, waketime.Text, waketimeDec.Text, duration };
             var listViewItem = new ListViewItem(row);
@@ -41,8 +42,8 @@ namespace RoyApp
                 waketimeTotal += Convert.ToDouble(waketimeDec.Text);
             }
 
-            bedtimeAvg.Text = TimeToData.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
-            waketimeAvg.Text = TimeToData.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
+            bedtimeAvg.Text = DataService.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
+            waketimeAvg.Text = DataService.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
 
             ClearTextData();
 
@@ -78,7 +79,7 @@ namespace RoyApp
                 myStream.Close();
                 try
                 {
-                    ListviewActions.ListViewToCSV(DataList, exportFileDialog.FileName, false);
+                    Services.ListviewService.ListViewToCSV(DataList, exportFileDialog.FileName, false);
                     MessageBox.Show("File successfully exported!");
                 }
                 catch
@@ -116,18 +117,18 @@ namespace RoyApp
                     string[] row = { 
                         cols[0].Trim('"'), 
                         cols[1].Trim('"'), 
-                        TimeToData.TimeToDecimal(cols[1].Trim('"')).ToString(), 
+                        DataService.TimeToDecimal(cols[1].Trim('"')).ToString(), 
                         cols[2].Trim('"'), 
-                        TimeToData.TimeToDecimal(cols[2].Trim('"')).ToString(), 
-                        TimeToData.TimeDuration(TimeToData.TimeToDecimal(cols[1].Trim('"')).ToString(), TimeToData.TimeToDecimal(cols[2].Trim('"')).ToString()).ToString()
+                        DataService.TimeToDecimal(cols[2].Trim('"')).ToString(), 
+                        DataService.TimeDuration(DataService.TimeToDecimal(cols[1].Trim('"')).ToString(), DataService.TimeToDecimal(cols[2].Trim('"')).ToString()).ToString()
                     };
                     var listViewItem = new ListViewItem(row);
                     DataList.Items.Add(listViewItem);
                     bedtimeTotal += Convert.ToDouble(row[2]);
                     waketimeTotal += Convert.ToDouble(row[4]);
                 }
-                bedtimeAvg.Text = TimeToData.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
-                waketimeAvg.Text = TimeToData.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
+                bedtimeAvg.Text = DataService.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
+                waketimeAvg.Text = DataService.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-namespace RoyApp
+namespace RoyApp.Services
 {
-    public static class TimeToData
+    public static class DataService
     {
         public static double TimeToDecimal(string time)
         {
