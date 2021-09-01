@@ -3,18 +3,25 @@ using System.Linq;
 
 namespace RoyApp.Services
 {
-    public static class DataService
+    public interface IDataService
     {
-        public static double TimeToDecimal(string time)
+        double TimeToDecimal(string time);
+        double TimeDuration(string bedtimeRec, string waketimeRec);
+        double TimeAverage(double timeTotal, int count);
+    }
+
+    public class DataService : IDataService
+    {
+        public double TimeToDecimal(string time)
         {
             bool IsTimeAM = true;
-            string timeNoSpace = time.Trim();
+            var timeNoSpace = time.Trim();
             if (timeNoSpace.EndsWith("PM"))
             {
                 IsTimeAM = false;
             }
 
-            string timeNumsOnly = new string(time.Where(c => char.IsDigit(c)).ToArray());
+            var timeNumsOnly = new string(time.Where(c => char.IsDigit(c)).ToArray());
 
             if (timeNumsOnly.Length >= 3)
             {
@@ -39,16 +46,16 @@ namespace RoyApp.Services
             return 0;
         }
 
-        public static double TimeDuration(string bedtimeRec, string waketimeRec)
+        public double TimeDuration(string bedtimeRec, string waketimeRec)
         {
-            double duration;
             double bedtime = Convert.ToDouble(bedtimeRec);
             double waketime = Convert.ToDouble(waketimeRec);
+            double duration;
             if (bedtime > 12)
             {
                 if (waketime > 12)
                 {
-                    duration = Math.Round(((24 - waketime) - (24 - bedtime)), 2);
+                    duration = Math.Round(((24 - bedtime) - (24 - waketime)), 2);
                 }
                 else
                 {
@@ -57,14 +64,11 @@ namespace RoyApp.Services
             }
             else
             {
-                duration = Math.Round((waketime - bedtime), 2);
+                duration = Math.Round(waketime - bedtime, 2);
             }
             return duration;
         }
 
-        public static double TimeAverage(double timeTotal, int count)
-        {
-            return Math.Round((Convert.ToDouble(timeTotal) / count), 2);
-        }
+        public double TimeAverage(double timeTotal, int count) => Math.Round(Convert.ToDouble(timeTotal) / count, 2);
     }
 }

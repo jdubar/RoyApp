@@ -1,32 +1,37 @@
-﻿using RoyApp.interfaces;
-using System;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace RoyApp.Services
 {
-    public static class ListviewService
+    public interface IListviewService
     {
-        public static void ListViewToCSV(ListView listView, string filePath, bool includeHidden)
+        void DeleteSelectedItems(object sender);
+        List<List<string>> GetItemList(ListView listView);
+    }
+
+    public class ListviewService : IListviewService
+    {
+        public List<List<string>> GetItemList(ListView listView)
         {
-            if (listView is null)
+            List<List<string>> list = new List<List<string>>();
+            for (int i = 0; i < listView.Items.Count; i++)
             {
-                throw new ArgumentNullException(nameof(listView));
+                List<string> subs = new List<string>();
+                for (int j = 0; j < listView.Items[i].SubItems.Count; j++)
+                {
+                    subs.Add(listView.Items[i].SubItems[j].Text);
+                }
+                list.Add(subs);
             }
-
-            if (string.IsNullOrEmpty(filePath))
-            {
-                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or empty.", nameof(filePath));
-            }
-            //make header string
-            IStringBuilderService result = new StringService.StringBuilderService();
-            FileService.WriteCSVRow(result, listView.Columns.Count, i => includeHidden || listView.Columns[i].Width > 0, i => listView.Columns[i].Text);
-
-            //export data rows
-            foreach (ListViewItem listItem in listView.Items)
-                FileService.WriteCSVRow(result, listView.Columns.Count, i => includeHidden || listView.Columns[i].Width > 0, i => listItem.SubItems[i].Text);
-
-            FileService.WriteCSVText(filePath, result);
+            return list;
         }
 
+        public void DeleteSelectedItems(object sender)
+        {
+            foreach (ListViewItem item in ((ListView)sender).SelectedItems)
+            {
+                item.Remove();
+            }
+        }
     }
 }

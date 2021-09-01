@@ -1,3 +1,4 @@
+using RoyApp.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
@@ -16,8 +17,12 @@ namespace RoyApp
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Main f1 = new Main();
-            f1.Text = System.Windows.Forms.Application.ProductName + " v" + System.Windows.Forms.Application.ProductVersion;
+            var dataService = new DataService();
+            var fileService = new FileService();
+            var listViewService = new ListviewService();
+
+            Main f1 = new Main(dataService, fileService, listViewService);
+            f1.Text = Application.ProductName + " v" + Application.ProductVersion;
             Application.Run(f1);
 
         }

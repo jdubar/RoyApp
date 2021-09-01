@@ -1,107 +1,183 @@
 ﻿using RoyApp.Services;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace RoyApp
 {
     public partial class Main : Form
     {
-        public Main()
+        private readonly IDataService _dataService;
+        private readonly IFileService _fileService;
+        private readonly IListviewService _listviewService;
+
+        public Main(IDataService dataService, IFileService fileService, IListviewService listviewService)
         {
             InitializeComponent();
+            _dataService = dataService;
+            _fileService = fileService;
+            _listviewService = listviewService;
+        }
+
+        private string BedtimeIdInForm
+        {
+            get => bedtimeId.Text;
+            set => bedtimeId.Text = value;
+        }
+        private string BedtimeEnteredInForm
+        {
+            get => bedtimeEntered.Text;
+            set => bedtimeEntered.Text = value;
+        }
+        private string BedtimeDecInForm
+        {
+            get => bedtimeDec.Text;
+            set => bedtimeDec.Text = value;
+        }
+        private string BedtimeAvgInForm
+        {
+            get => bedtimeAvg.Text;
+            set => bedtimeAvg.Text = value;
+        }
+        private string WaketimeEnteredInForm
+        {
+            get => waketimeEntered.Text;
+            set => waketimeEntered.Text = value;
+        }
+        private string WaketimeDecInForm
+        {
+            get => waketimeDec.Text;
+            set => waketimeDec.Text = value;
+        }
+        private string WaketimeAvgInForm
+        {
+            get => waketimeAvg.Text;
+            set => waketimeAvg.Text = value;
         }
 
         private void BedTime_TextChanged(object sender, EventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            bedtimeDec.Text = DataService.TimeToDecimal(tb.Text).ToString();
+            BedtimeDecInForm = _dataService.TimeToDecimal(BedtimeEnteredInForm).ToString();
         }
 
         private void Waketime_TextChanged(object sender, EventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            waketimeDec.Text = DataService.TimeToDecimal(tb.Text).ToString();
+            WaketimeDecInForm = _dataService.TimeToDecimal(WaketimeEnteredInForm).ToString();
         }
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
+        public void ButtonAdd_Click(object sender, EventArgs e)
         {
+            string duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
+
+            string[] row = { BedtimeIdInForm, BedtimeEnteredInForm, BedtimeDecInForm, WaketimeEnteredInForm, WaketimeDecInForm, duration };
+            var listViewItem = new ListViewItem(row);
+            listViewDataList.Items.Add(listViewItem);
+
             double bedtimeTotal = 0;
             double waketimeTotal = 0;
 
-            string duration = DataService.TimeDuration(bedtimeDec.Text, waketimeDec.Text).ToString();
-
-            string[] row = { bedtimeId.Text, bedtime.Text, bedtimeDec.Text, waketime.Text, waketimeDec.Text, duration };
-            var listViewItem = new ListViewItem(row);
-            DataList.Items.Add(listViewItem);
-
-            var collection = DataList.Items;
+            var collection = listViewDataList.Items;
             foreach (var item in collection)
             {
-                bedtimeTotal += Convert.ToDouble(bedtimeDec.Text);
-                waketimeTotal += Convert.ToDouble(waketimeDec.Text);
+                bedtimeTotal += Convert.ToDouble(BedtimeDecInForm);
+                waketimeTotal += Convert.ToDouble(WaketimeDecInForm);
             }
 
-            bedtimeAvg.Text = DataService.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
-            waketimeAvg.Text = DataService.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
-
+            BedtimeAvgInForm = _dataService.TimeAverage(bedtimeTotal, listViewDataList.Items.Count).ToString();
+            WaketimeAvgInForm = _dataService.TimeAverage(waketimeTotal, listViewDataList.Items.Count).ToString();
+            // auto-adjust the ID column width based on text
+            listViewDataList.Columns[0].Width = -1;
             ClearTextData();
-
-            void ClearTextData()
-            {
-                bedtimeId.Text = "";
-                bedtime.Text = "";
-                bedtimeDec.Text = "";
-                waketime.Text = "";
-                waketimeDec.Text = "";
-            }
         }
 
         private void ButtonClear_Click(object sender, EventArgs e)
         {
-            DataList.Items.Clear();
-            bedtimeAvg.Text = "";
-            waketimeAvg.Text = "";
+            listViewDataList.Items.Clear();
+            ClearAverages();
+            ClearTextData();
+        }
+
+        private void ClearAverages()
+        {
+            BedtimeAvgInForm = "";
+            WaketimeAvgInForm = "";
+        }
+
+        private void ClearTextData()
+        {
+            BedtimeIdInForm = "";
+            BedtimeEnteredInForm = "";
+            BedtimeDecInForm = "";
+            WaketimeEnteredInForm = "";
+            WaketimeDecInForm = "";
         }
 
         private void ButtonExport_Click(object sender, EventArgs e)
         {
-            Stream myStream;
-            SaveFileDialog exportFileDialog = new SaveFileDialog
+            var filePath = ShowSaveDialog();
+            if (filePath != null)
             {
-                Filter = "csv files (*.csv)|*.csv",
-                FilterIndex = 2,
-                RestoreDirectory = true
-            };
-
-            if ((exportFileDialog.ShowDialog() == DialogResult.OK) && (myStream = exportFileDialog.OpenFile()) != null)
-            {
-                myStream.Close();
                 try
                 {
-                    Services.ListviewService.ListViewToCSV(DataList, exportFileDialog.FileName, false);
-                    MessageBox.Show("File successfully exported!");
+                    var headers = listViewDataList.Columns
+                                  .OfType<ColumnHeader>()
+                                  .Select(header => header.Text.Trim())
+                                  .ToArray();
+
+                    var items = _listviewService.GetItemList(listViewDataList);
+                    _fileService.WriteToCsv(items, headers, filePath);
+                    MessageBox.Show("File successfully exported!",
+                                    "Success",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Handle exception
+                    MessageBox.Show(ex.Message, 
+                                    "Error", 
+                                    MessageBoxButtons.OK, 
+                                    MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void ButtonImport_Click(object sender, EventArgs e)
+        private Stream ShowOpenDialog()
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = "";
-            openFileDialog.Filter = "csv files (*.csv)|*.csv";
-            openFileDialog.FilterIndex = 2;
-            openFileDialog.RestoreDirectory = true;
+                                 openFileDialog.InitialDirectory = "";
+                                 openFileDialog.Filter = "csv files (*.csv)|*.csv";
+                                 openFileDialog.FilterIndex = 2;
+                                 openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //Read the contents of the file into a stream
-                var fileStream = openFileDialog.OpenFile();
+                return openFileDialog.OpenFile();
+            }
+            return null;
+        }
 
+        private string ShowSaveDialog()
+        {
+            using SaveFileDialog exportFileDialog = new SaveFileDialog();
+                                 exportFileDialog.Filter = "csv files (*.csv)|*.csv";
+                                 exportFileDialog.FilterIndex = 2;
+                                 exportFileDialog.RestoreDirectory = true;
+
+            Stream myStream;
+            if ((exportFileDialog.ShowDialog() == DialogResult.OK) && (myStream = exportFileDialog.OpenFile()) != null)
+            {
+                myStream.Close();
+                return exportFileDialog.FileName;
+            }
+            return null;
+        }
+
+        private void ButtonImport_Click(object sender, EventArgs e)
+        {
+            var fileStream = ShowOpenDialog();
+            if (fileStream != null)
+            {
                 using StreamReader reader = new StreamReader(fileStream);
                 // skip the header line
                 reader.ReadLine();
@@ -114,21 +190,24 @@ namespace RoyApp
                 {
                     string[] cols = currentLine.Split(',');
                     // 0 - id, 1 - bedtime raw, 2 - waketime raw
-                    string[] row = { 
-                        cols[0].Trim('"'), 
-                        cols[1].Trim('"'), 
-                        DataService.TimeToDecimal(cols[1].Trim('"')).ToString(), 
-                        cols[2].Trim('"'), 
-                        DataService.TimeToDecimal(cols[2].Trim('"')).ToString(), 
-                        DataService.TimeDuration(DataService.TimeToDecimal(cols[1].Trim('"')).ToString(), DataService.TimeToDecimal(cols[2].Trim('"')).ToString()).ToString()
+                    string[] row = {
+                        cols[0].Trim('"'),
+                        cols[1].Trim('"'),
+                        _dataService.TimeToDecimal(cols[1].Trim('"')).ToString(),
+                        cols[2].Trim('"'),
+                        _dataService.TimeToDecimal(cols[2].Trim('"')).ToString(),
+                        _dataService.TimeDuration(_dataService.TimeToDecimal(cols[1].Trim('"')).ToString(), _dataService.TimeToDecimal(cols[2].Trim('"')).ToString()).ToString()
                     };
                     var listViewItem = new ListViewItem(row);
-                    DataList.Items.Add(listViewItem);
+                    listViewDataList.Items.Add(listViewItem);
                     bedtimeTotal += Convert.ToDouble(row[2]);
                     waketimeTotal += Convert.ToDouble(row[4]);
                 }
-                bedtimeAvg.Text = DataService.TimeAverage(bedtimeTotal, DataList.Items.Count).ToString();
-                waketimeAvg.Text = DataService.TimeAverage(waketimeTotal, DataList.Items.Count).ToString();
+
+                BedtimeAvgInForm = _dataService.TimeAverage(bedtimeTotal, listViewDataList.Items.Count).ToString();
+                WaketimeAvgInForm = _dataService.TimeAverage(waketimeTotal, listViewDataList.Items.Count).ToString();
+                // auto-adjust the ID column width based on text
+                listViewDataList.Columns[0].Width = -1;
             }
         }
 
@@ -136,10 +215,7 @@ namespace RoyApp
         {
             if (Keys.Delete == e.KeyCode)
             {
-                foreach (ListViewItem ListView in ((ListView)sender).SelectedItems)
-                {
-                    ListView.Remove();
-                }
+                _listviewService.DeleteSelectedItems(sender);
             }
         }
     }

@@ -30,7 +30,7 @@ namespace RoyApp
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.DataList = new System.Windows.Forms.ListView();
+            this.listViewDataList = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
@@ -41,8 +41,8 @@ namespace RoyApp
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.bedtimeId = new System.Windows.Forms.TextBox();
-            this.bedtime = new System.Windows.Forms.TextBox();
-            this.waketime = new System.Windows.Forms.TextBox();
+            this.bedtimeEntered = new System.Windows.Forms.TextBox();
+            this.waketimeEntered = new System.Windows.Forms.TextBox();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.bedtimeDec = new System.Windows.Forms.TextBox();
@@ -56,30 +56,30 @@ namespace RoyApp
             this.buttonImport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // DataList
+            // listViewDataList
             // 
-            this.DataList.AllowColumnReorder = true;
-            this.DataList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.listViewDataList.AllowColumnReorder = true;
+            this.listViewDataList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DataList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewDataList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
-            this.DataList.FullRowSelect = true;
-            this.DataList.GridLines = true;
-            this.DataList.HideSelection = false;
-            this.DataList.LabelWrap = false;
-            this.DataList.Location = new System.Drawing.Point(12, 12);
-            this.DataList.Name = "DataList";
-            this.DataList.Size = new System.Drawing.Size(776, 287);
-            this.DataList.TabIndex = 0;
-            this.DataList.UseCompatibleStateImageBehavior = false;
-            this.DataList.View = System.Windows.Forms.View.Details;
-            this.DataList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataList_KeyDown);
+            this.listViewDataList.FullRowSelect = true;
+            this.listViewDataList.GridLines = true;
+            this.listViewDataList.HideSelection = false;
+            this.listViewDataList.LabelWrap = false;
+            this.listViewDataList.Location = new System.Drawing.Point(12, 12);
+            this.listViewDataList.Name = "listViewDataList";
+            this.listViewDataList.Size = new System.Drawing.Size(776, 287);
+            this.listViewDataList.TabIndex = 0;
+            this.listViewDataList.UseCompatibleStateImageBehavior = false;
+            this.listViewDataList.View = System.Windows.Forms.View.Details;
+            this.listViewDataList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataList_KeyDown);
             // 
             // columnHeader1
             // 
@@ -149,23 +149,23 @@ namespace RoyApp
             this.bedtimeId.Size = new System.Drawing.Size(100, 23);
             this.bedtimeId.TabIndex = 5;
             // 
-            // bedtime
+            // bedtimeEntered
             // 
-            this.bedtime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bedtime.Location = new System.Drawing.Point(124, 325);
-            this.bedtime.Name = "bedtime";
-            this.bedtime.Size = new System.Drawing.Size(100, 23);
-            this.bedtime.TabIndex = 6;
-            this.bedtime.TextChanged += new System.EventHandler(this.BedTime_TextChanged);
+            this.bedtimeEntered.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.bedtimeEntered.Location = new System.Drawing.Point(124, 325);
+            this.bedtimeEntered.Name = "bedtimeEntered";
+            this.bedtimeEntered.Size = new System.Drawing.Size(100, 23);
+            this.bedtimeEntered.TabIndex = 6;
+            this.bedtimeEntered.TextChanged += new System.EventHandler(this.BedTime_TextChanged);
             // 
-            // waketime
+            // waketimeEntered
             // 
-            this.waketime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.waketime.Location = new System.Drawing.Point(230, 325);
-            this.waketime.Name = "waketime";
-            this.waketime.Size = new System.Drawing.Size(100, 23);
-            this.waketime.TabIndex = 7;
-            this.waketime.TextChanged += new System.EventHandler(this.Waketime_TextChanged);
+            this.waketimeEntered.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.waketimeEntered.Location = new System.Drawing.Point(230, 325);
+            this.waketimeEntered.Name = "waketimeEntered";
+            this.waketimeEntered.Size = new System.Drawing.Size(100, 23);
+            this.waketimeEntered.TabIndex = 7;
+            this.waketimeEntered.TextChanged += new System.EventHandler(this.Waketime_TextChanged);
             // 
             // buttonAdd
             // 
@@ -253,7 +253,7 @@ namespace RoyApp
             this.buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonClear.Location = new System.Drawing.Point(694, 376);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(90, 23);
+            this.buttonClear.Size = new System.Drawing.Size(90, 33);
             this.buttonClear.TabIndex = 16;
             this.buttonClear.Text = "Clear Data";
             this.buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -267,7 +267,7 @@ namespace RoyApp
             this.buttonExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonExport.Location = new System.Drawing.Point(694, 347);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(90, 23);
+            this.buttonExport.Size = new System.Drawing.Size(90, 27);
             this.buttonExport.TabIndex = 17;
             this.buttonExport.Text = "Export";
             this.buttonExport.UseVisualStyleBackColor = true;
@@ -279,7 +279,7 @@ namespace RoyApp
             this.buttonImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonImport.Location = new System.Drawing.Point(694, 318);
             this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(90, 23);
+            this.buttonImport.Size = new System.Drawing.Size(90, 28);
             this.buttonImport.TabIndex = 18;
             this.buttonImport.Text = "Import";
             this.buttonImport.UseVisualStyleBackColor = true;
@@ -301,13 +301,13 @@ namespace RoyApp
             this.Controls.Add(this.bedtimeDec);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.waketime);
-            this.Controls.Add(this.bedtime);
+            this.Controls.Add(this.waketimeEntered);
+            this.Controls.Add(this.bedtimeEntered);
             this.Controls.Add(this.bedtimeId);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.DataList);
+            this.Controls.Add(this.listViewDataList);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(816, 200);
             this.Name = "Main";
@@ -320,13 +320,13 @@ namespace RoyApp
 
         #endregion
 
-        private System.Windows.Forms.ListView DataList;
+        private System.Windows.Forms.ListView listViewDataList;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox bedtimeId;
-        private System.Windows.Forms.TextBox bedtime;
-        private System.Windows.Forms.TextBox waketime;
+        private System.Windows.Forms.TextBox bedtimeEntered;
+        private System.Windows.Forms.TextBox waketimeEntered;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox bedtimeDec;

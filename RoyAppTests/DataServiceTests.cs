@@ -1,18 +1,26 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FakeItEasy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RoyApp.Services;
 
 namespace RoyApp.Tests
 {
     [TestClass()]
-    public class TimeToDataTests
+    public class DataServiceTests
     {
+        private readonly IDataService _dataServiceFake;
+
+        public DataServiceTests()
+        {
+            _dataServiceFake = A.Fake<IDataService>();
+        }
+
         [TestMethod()]
         public void BedtimeRaw_AMPM_Should_ConvertToDecimal()
         {
             string enteredBedtimeRaw = "12:45 PM";
             double expectedBedtimeDec = 12.75;
 
-            double actual = DataService.TimeToDecimal(enteredBedtimeRaw);
+            double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreEqual(expectedBedtimeDec, actual);
         }
         [TestMethod()]
@@ -21,7 +29,7 @@ namespace RoyApp.Tests
             string enteredBedtimeRaw = "1:45 AM";
             double expectedBedtimeDec = 12.75;
 
-            double actual = DataService.TimeToDecimal(enteredBedtimeRaw);
+            double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreNotEqual(expectedBedtimeDec, actual);
         }
         [TestMethod()]
@@ -30,7 +38,7 @@ namespace RoyApp.Tests
             string enteredBedtimeRaw = "1345";
             double expectedBedtimeDec = 13.75;
 
-            double actual = DataService.TimeToDecimal(enteredBedtimeRaw);
+            double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreEqual(expectedBedtimeDec, actual);
         }
         [TestMethod()]
@@ -39,7 +47,7 @@ namespace RoyApp.Tests
             string enteredBedtimeRaw = "145PM";
             double expectedBedtimeDec = 13.75;
 
-            double actual = DataService.TimeToDecimal(enteredBedtimeRaw);
+            double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreEqual(expectedBedtimeDec, actual);
         }
         [TestMethod()]
@@ -48,7 +56,7 @@ namespace RoyApp.Tests
             string enteredBedtimeRaw = "1";
             double expectedResult = 0;
 
-            double actual = DataService.TimeToDecimal(enteredBedtimeRaw);
+            double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
             Assert.AreEqual(expectedResult, actual);
         }
 
@@ -59,7 +67,7 @@ namespace RoyApp.Tests
             string enteredWaketimeRec = "8";
             double expectedDuration = 10;
 
-            double actual = DataService.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
+            double actual = _dataServiceFake.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
             Assert.AreEqual(expectedDuration, actual);
         }
         [TestMethod()]
@@ -69,7 +77,7 @@ namespace RoyApp.Tests
             string enteredWaketimeRec = "13.75";
             double expectedDuration = 2;
 
-            double actual = DataService.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
+            double actual = _dataServiceFake.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
             Assert.AreNotEqual(expectedDuration, actual);
         }
 
@@ -80,7 +88,7 @@ namespace RoyApp.Tests
             int bedtimeCount = 5;
             double expectedAverage = 10;
 
-            double actual = DataService.TimeAverage(bedtimeTotal, bedtimeCount);
+            double actual = _dataServiceFake.TimeAverage(bedtimeTotal, bedtimeCount);
             Assert.AreEqual(expectedAverage, actual);
         }
         [TestMethod()]
@@ -90,7 +98,7 @@ namespace RoyApp.Tests
             int bedtimeCount = 5;
             double expectedAverage = 5;
 
-            double actual = DataService.TimeAverage(bedtimeTotal, bedtimeCount);
+            double actual = _dataServiceFake.TimeAverage(bedtimeTotal, bedtimeCount);
             Assert.AreNotEqual(expectedAverage, actual);
         }
     }
