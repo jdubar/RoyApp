@@ -69,19 +69,24 @@ namespace RoyApp
         public void ButtonAdd_Click(object sender, EventArgs e)
         {
             string duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
+            if (duration == "-1")
+            {
+                MessageBox.Show("Please enter a value");
+                return;
+            }
 
             string[] row = { BedtimeIdInForm, BedtimeEnteredInForm, BedtimeDecInForm, WaketimeEnteredInForm, WaketimeDecInForm, duration };
             var listViewItem = new ListViewItem(row);
             listViewDataList.Items.Add(listViewItem);
 
-            double bedtimeTotal = 0;
-            double waketimeTotal = 0;
+            decimal bedtimeTotal = 0;
+            decimal waketimeTotal = 0;
 
             var collection = listViewDataList.Items;
             foreach (var item in collection)
             {
-                bedtimeTotal += Convert.ToDouble(BedtimeDecInForm);
-                waketimeTotal += Convert.ToDouble(WaketimeDecInForm);
+                bedtimeTotal += Convert.ToDecimal(BedtimeDecInForm);
+                waketimeTotal += Convert.ToDecimal(WaketimeDecInForm);
             }
 
             BedtimeAvgInForm = _dataService.TimeAverage(bedtimeTotal, listViewDataList.Items.Count).ToString();
@@ -92,6 +97,11 @@ namespace RoyApp
         }
 
         private void ButtonClear_Click(object sender, EventArgs e)
+        {
+            ClearAllData();
+        }
+
+        private void ClearAllData()
         {
             listViewDataList.Items.Clear();
             ClearAverages();
@@ -178,13 +188,15 @@ namespace RoyApp
             var fileStream = ShowOpenDialog();
             if (fileStream != null)
             {
+                ClearAllData();
+
                 using StreamReader reader = new StreamReader(fileStream);
                 // skip the header line
                 reader.ReadLine();
                 string currentLine;
 
-                double bedtimeTotal = 0;
-                double waketimeTotal = 0;
+                decimal bedtimeTotal = 0;
+                decimal waketimeTotal = 0;
                 // currentLine will be null when the StreamReader reaches the end of file
                 while ((currentLine = reader.ReadLine()) != null)
                 {
@@ -200,8 +212,8 @@ namespace RoyApp
                     };
                     var listViewItem = new ListViewItem(row);
                     listViewDataList.Items.Add(listViewItem);
-                    bedtimeTotal += Convert.ToDouble(row[2]);
-                    waketimeTotal += Convert.ToDouble(row[4]);
+                    bedtimeTotal += Convert.ToDecimal(row[2]);
+                    waketimeTotal += Convert.ToDecimal(row[4]);
                 }
 
                 BedtimeAvgInForm = _dataService.TimeAverage(bedtimeTotal, listViewDataList.Items.Count).ToString();

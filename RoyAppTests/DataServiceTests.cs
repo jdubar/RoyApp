@@ -1,107 +1,99 @@
-﻿using FakeItEasy;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RoyApp.Services;
 
 namespace RoyApp.Tests
 {
     public class DataServiceTests
     {
-        [TestCase("12:45 PM", 12.75)]
-        public void BedtimeRaw_AMPM_Should_ConvertToDecimal(string enteredBedtimeRaw, double expectedBedtimeDec)
+        [TestCase("12:00 AM", 0.00)]
+        [TestCase("11:59 AM", 11.98)]
+        [TestCase("1345", 13.75)]
+        [TestCase("145PM", 13.75)]
+        [TestCase("11:59 PM", 23.98)]
+        [TestCase("1", 0)]
+        public void BedtimeRaw_AMPM_Should_ConvertToDecimal(string timeAsString, decimal expected)
         {
             // Arrange
-            var dataServiceFake = A.Fake<IDataService>();
+            var dataService = new DataService();
 
             // Act
-            A.CallTo(() => dataServiceFake.TimeToDecimal(enteredBedtimeRaw)).Returns(expectedBedtimeDec);
-            //var actual = dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
+            var actual = dataService.TimeToDecimal(timeAsString);
 
             // Assert
-            Assert.That(dataServiceFake.TimeToDecimal(enteredBedtimeRaw), Is.EqualTo(expectedBedtimeDec));
+            Assert.That(actual, Is.EqualTo(expected));
         }
-        //[TestMethod()]
-        //public void BedtimeRaw_AMPM_ShouldNotEqual_ExpectedDecimal()
-        //{
-        //    var mock = A.Fake<IDataService>();
 
-        //    string enteredBedtimeRaw = "1:45 AM";
-        //    double expectedBedtimeDec = 12.75;
+        [TestCase("12:00 AM", 12.00)]
+        [TestCase("1:45 AM", 13.75)]
+        [TestCase("1", 1)]
+        public void BedtimeRaw_AMPM_ShouldNotEqual_ExpectedDecimal(string timeAsString, decimal expected)
+        {
+            // Arrange
+            var dataService = new DataService();
 
-        //    A.CallTo(() => mock.TimeToDecimal(enteredBedtimeRaw)).Returns(expectedBedtimeDec);
+            // Act
+            var actual = dataService.TimeToDecimal(timeAsString);
 
-        //    double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
-        //    A.Equals
-        //    Assert.AreNotEqual(expectedBedtimeDec, actual);
-        //}
-        //[TestMethod()]
-        //public void BedtimeRaw_GreaterThanTwelve_ShouldEqual_ExpectedDecimal()
-        //{
-        //    string enteredBedtimeRaw = "1345";
-        //    double expectedBedtimeDec = 13.75;
+            // Assert
+            Assert.That(actual, Is.Not.EqualTo(expected));
+        }
 
-        //    double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
-        //    Assert.AreEqual(expectedBedtimeDec, actual);
-        //}
-        //[TestMethod()]
-        //public void BedtimeRaw_AMPM_LessThanTwelve_ShouldEqual_ExpectedDecimal()
-        //{
-        //    string enteredBedtimeRaw = "145PM";
-        //    double expectedBedtimeDec = 13.75;
+        [TestCase("22", "8", 10)]
+        [TestCase("20", "4", 8)]
+        [TestCase("6", "12", 6)]
+        public void TimeDuration_ShouldEqual_ExpectedDuration(string enteredBedtimeRec, string enteredWaketimeRec, double expected)
+        {
+            // Arrange
+            var dataService = new DataService();
 
-        //    double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
-        //    Assert.AreEqual(expectedBedtimeDec, actual);
-        //}
-        //[TestMethod()]
-        //public void BedtimeRaw_LessThanThreeChars_ShouldReturnZero()
-        //{
-        //    string enteredBedtimeRaw = "1";
-        //    double expectedResult = 0;
+            // Act
+            var actual = dataService.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
 
-        //    double actual = _dataServiceFake.TimeToDecimal(enteredBedtimeRaw);
-        //    Assert.AreEqual(expectedResult, actual);
-        //}
+            // Assert
+            Assert.That(actual, Is.EqualTo(expected));
+        }
 
-        //[TestMethod()]
-        //public void TimeDuration_ShouldEqual_ExpectedDuration()
-        //{
-        //    string enteredBedtimeRec = "22";
-        //    string enteredWaketimeRec = "8";
-        //    double expectedDuration = 10;
+        [TestCase("22", "8", 12)]
+        [TestCase("6", "12", 12)]
+        [TestCase("6", null, 12)]
+        public void TimeDuration_ShouldNotEqual_ExpectedDuration(string enteredBedtimeRec, string enteredWaketimeRec, double expected)
+        {
+            // Arrange
+            var dataService = new DataService();
 
-        //    double actual = _dataServiceFake.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
-        //    Assert.AreEqual(expectedDuration, actual);
-        //}
-        //[TestMethod()]
-        //public void TimeDuration_ShouldNotEqual_ExpectedDuration()
-        //{
-        //    string enteredBedtimeRec = "12.75";
-        //    string enteredWaketimeRec = "13.75";
-        //    double expectedDuration = 2;
+            // Act
+            var actual = dataService.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
 
-        //    double actual = _dataServiceFake.TimeDuration(enteredBedtimeRec, enteredWaketimeRec);
-        //    Assert.AreNotEqual(expectedDuration, actual);
-        //}
+            // Assert
+            Assert.That(actual, Is.Not.EqualTo(expected));
+        }
 
-        //[TestMethod()]
-        //public void TimeAverage_ShouldEqual_ExpectedAverage()
-        //{
-        //    double bedtimeTotal = 50;
-        //    int bedtimeCount = 5;
-        //    double expectedAverage = 10;
+        [TestCase(50, 5, 10)]
+        [TestCase(10, 5, 2)]
+        public void TimeAverage_ShouldEqual_ExpectedAverage(double bedtimeTotal, int bedtimeCount, double expected)
+        {
+            // Arrange
+            var dataService = new DataService();
 
-        //    double actual = _dataServiceFake.TimeAverage(bedtimeTotal, bedtimeCount);
-        //    Assert.AreEqual(expectedAverage, actual);
-        //}
-        //[TestMethod()]
-        //public void TimeAverage_ShouldNotEqual_ExpectedAverage()
-        //{
-        //    double bedtimeTotal = 50;
-        //    int bedtimeCount = 5;
-        //    double expectedAverage = 5;
+            // Act
+            var actual = dataService.TimeAverage(bedtimeTotal, bedtimeCount);
 
-        //    double actual = _dataServiceFake.TimeAverage(bedtimeTotal, bedtimeCount);
-        //    Assert.AreNotEqual(expectedAverage, actual);
-        //}
+            // Assert
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [TestCase(50, 5, 5)]
+        [TestCase(28, 7, 14)]
+        public void TimeAverage_ShouldNotEqual_ExpectedAverage(double bedtimeTotal, int bedtimeCount, double expected)
+        {
+            // Arrange
+            var dataService = new DataService();
+
+            // Act
+            var actual = dataService.TimeAverage(bedtimeTotal, bedtimeCount);
+
+            // Assert
+            Assert.That(actual, Is.Not.EqualTo(expected));
+        }
     }
 }
