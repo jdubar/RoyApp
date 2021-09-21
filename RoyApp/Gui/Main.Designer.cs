@@ -79,7 +79,7 @@ namespace RoyApp
             this.listViewDataList.TabIndex = 0;
             this.listViewDataList.UseCompatibleStateImageBehavior = false;
             this.listViewDataList.View = System.Windows.Forms.View.Details;
-            this.listViewDataList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataList_KeyDown);
+            this.listViewDataList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataList_DeleteItem);
             // 
             // columnHeader1
             // 
@@ -115,7 +115,7 @@ namespace RoyApp
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 308);
+            this.label2.Location = new System.Drawing.Point(18, 307);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 15);
             this.label2.TabIndex = 2;
@@ -144,7 +144,7 @@ namespace RoyApp
             // bedtimeId
             // 
             this.bedtimeId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bedtimeId.Location = new System.Drawing.Point(18, 326);
+            this.bedtimeId.Location = new System.Drawing.Point(18, 325);
             this.bedtimeId.Name = "bedtimeId";
             this.bedtimeId.Size = new System.Drawing.Size(100, 23);
             this.bedtimeId.TabIndex = 5;
@@ -230,20 +230,22 @@ namespace RoyApp
             // 
             this.bedtimeAvg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bedtimeAvg.Enabled = false;
-            this.bedtimeAvg.Location = new System.Drawing.Point(591, 319);
+            this.bedtimeAvg.Location = new System.Drawing.Point(591, 320);
             this.bedtimeAvg.Name = "bedtimeAvg";
             this.bedtimeAvg.Size = new System.Drawing.Size(100, 23);
             this.bedtimeAvg.TabIndex = 14;
+            this.bedtimeAvg.Text = "0";
             this.bedtimeAvg.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // waketimeAvg
             // 
             this.waketimeAvg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.waketimeAvg.Enabled = false;
-            this.waketimeAvg.Location = new System.Drawing.Point(591, 348);
+            this.waketimeAvg.Location = new System.Drawing.Point(591, 353);
             this.waketimeAvg.Name = "waketimeAvg";
             this.waketimeAvg.Size = new System.Drawing.Size(100, 23);
             this.waketimeAvg.TabIndex = 15;
+            this.waketimeAvg.Text = "0";
             this.waketimeAvg.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // buttonClear

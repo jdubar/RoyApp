@@ -70,7 +70,7 @@ namespace RoyApp.Tests
 
         [TestCase(50, 5, 10)]
         [TestCase(10, 5, 2)]
-        public void TimeAverage_ShouldEqual_ExpectedAverage(double bedtimeTotal, int bedtimeCount, double expected)
+        public void TimeAverage_ShouldEqual_ExpectedAverage(decimal bedtimeTotal, int bedtimeCount, double expected)
         {
             // Arrange
             var dataService = new DataService();
@@ -84,7 +84,7 @@ namespace RoyApp.Tests
 
         [TestCase(50, 5, 5)]
         [TestCase(28, 7, 14)]
-        public void TimeAverage_ShouldNotEqual_ExpectedAverage(double bedtimeTotal, int bedtimeCount, double expected)
+        public void TimeAverage_ShouldNotEqual_ExpectedAverage(decimal bedtimeTotal, int bedtimeCount, double expected)
         {
             // Arrange
             var dataService = new DataService();

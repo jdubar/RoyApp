@@ -56,7 +56,7 @@ namespace RoyApp.Services
         {
             if (String.IsNullOrEmpty(bedtimeRec) || String.IsNullOrEmpty(waketimeRec))
             {
-                return -1;
+                return ((int)-1);
             }
 
             var bedtime = Convert.ToDecimal(bedtimeRec);
@@ -65,26 +65,26 @@ namespace RoyApp.Services
             {
                 if (waketime > 12)
                 {
-                    return DoFormat((24 - bedtime) - (24 - waketime));
+                    return DecimalFormat((24 - bedtime) - (24 - waketime));
                 }
                 else
                 {
-                    return DoFormat((24 - bedtime) + waketime);
+                    return DecimalFormat((24 - bedtime) + waketime);
                 }
             }
             else
             {
-                return DoFormat(waketime - bedtime);
+                return DecimalFormat(waketime - bedtime);
             }
         }
 
-        public static decimal DoFormat(decimal myNumber)
+        public static decimal DecimalFormat(decimal time)
         {
-            var s = String.Format("{0:0.00}", myNumber);
+            var s = String.Format("{0:0.00}", time);
 
             if (s.EndsWith("00"))
             {
-                return ((int)myNumber);
+                return ((int)time);
             }
             else
             {
@@ -92,6 +92,13 @@ namespace RoyApp.Services
             }
         }
 
-        public decimal TimeAverage(decimal timeTotal, int count) => Math.Round(Convert.ToDecimal(timeTotal) / count, 2);
+        public decimal TimeAverage(decimal timeTotal, int count)
+        {
+            if (count > 0)
+            {
+                return Math.Round(Convert.ToDecimal(timeTotal) / count, 2);
+            }
+            return 0;
+        }
     }
 }
