@@ -33,9 +33,9 @@ namespace RoyApp.Services
                         .EndsWith("PM");
         }
 
-        public string[] SplitLineData(string line)
+        public string[] SplitLineData(string currentLine)
         {
-            string[] cols = line.Split(',');
+            string[] cols = currentLine.Split(',');
             // 0 - id, 1 - bedtime raw, 2 - waketime raw
             string[] row = {
                         cols[0].Trim('"'),
@@ -61,7 +61,7 @@ namespace RoyApp.Services
         {
             if (String.IsNullOrEmpty(bedtimeRec) || String.IsNullOrEmpty(waketimeRec))
             {
-                return ((int)-1);
+                return -1;
             }
 
             var bedtime = Convert.ToDecimal(bedtimeRec);

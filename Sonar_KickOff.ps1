@@ -10,9 +10,9 @@ $line = "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Set-Location -Path "$repoPath\$appName"
 #-------------------------------------------------------------------------------------------------
 Write-Output $line
-Write-Output "Running: dotnet sonarscanner begin /k:""$appName"" /d:sonar.host.url=""$sonarURL"" /d:sonar.login=""$sonarLogin"" /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coveragexml"
+Write-Output "Running: dotnet sonarscanner begin /k:""$appName"" /d:sonar.host.url=""$sonarURL"" /d:sonar.login=""$sonarLogin"" /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coveragexml /d:sonar.cs.nunit.reportsPaths=**/*.coveragexml"
 Write-Output $line
-& dotnet sonarscanner begin /k:"$appName" /d:sonar.host.url="$sonarURL" /d:sonar.login="$sonarLogin" /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coveragexml
+& dotnet sonarscanner begin /k:"$appName" /d:sonar.host.url="$sonarURL" /d:sonar.login="$sonarLogin" /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coveragexml /d:sonar.cs.nunit.reportsPaths=**/*.coveragexml
 #-------------------------------------------------------------------------------------------------
 Write-Output $line
 Write-Output "Running: dotnet build"
@@ -20,9 +20,9 @@ Write-Output $line
 & dotnet build
 #-------------------------------------------------------------------------------------------------
 Write-Output $line
-Write-Output "Running: ""$VSPath\vstest.console.exe"" /EnableCodeCoverage ""$repoPath\$testName\bin\Release\.netcoreapp,version=v3.1\publish\$testFile"""
+Write-Output "Running: ""$VSPath\vstest.console.exe"" /EnableCodeCoverage ""$repoPath\$testName\bin\Debug\netcoreapp3.1\publish\$testFile"""
 Write-Output $line
-$result = & "$VSPath\vstest.console.exe" /EnableCodeCoverage "$repoPath\$testName\bin\Release\.netcoreapp,version=v3.1\publish\$testFile"
+$result = & "$VSPath\vstest.console.exe" /EnableCodeCoverage "$repoPath\$testName\bin\Debug\netcoreapp3.1\publish\$testFile"
 $x = $result -like "*.coverage"
 $x = $x.Trim()
 #-------------------------------------------------------------------------------------------------
@@ -32,14 +32,14 @@ Write-Output $line
 & dotnet test --collect "Code Coverage"
 #-------------------------------------------------------------------------------------------------
 Write-Output $line
-Write-Output "Running: ""$repoPath\$testName\bin\Release\.netcoreapp,version=v3.1\publish\CodeCoverage\amd64\CodeCoverage.exe"" analyze /output:""$repoPath\$appName\TestResults\$testName.coveragexml"" ""$x"""
+Write-Output "Running: ""$repoPath\$testName\bin\Debug\netcoreapp3.1\publish\CodeCoverage\amd64\CodeCoverage.exe"" analyze /output:""$repoPath\$appName\TestResults\$testName.coveragexml"" ""$x"""
 Write-Output $line
-& "$repoPath\$testName\bin\Release\.netcoreapp,version=v3.1\publish\CodeCoverage\amd64\CodeCoverage.exe" analyze /output:"$repoPath\$appName\TestResults\$testName.coveragexml" "$x"
+& "$repoPath\$testName\bin\Debug\netcoreapp3.1\publish\CodeCoverage\amd64\CodeCoverage.exe" analyze /output:"$repoPath\$appName\TestResults\$testName.coveragexml" "$x"
 #-------------------------------------------------------------------------------------------------
 Write-Output $line
-Write-Output "Running: ""$VSPath\vstest.console.exe"" /Logger:trx ""$repoPath\$testName\bin\Release\.netcoreapp,version=v3.1\publish\$testFile"""
+Write-Output "Running: ""$VSPath\vstest.console.exe"" /Logger:trx ""$repoPath\$testName\bin\Debug\netcoreapp3.1\publish\$testFile"""
 Write-Output $line
-& "$VSPath\vstest.console.exe" /Logger:trx "$repoPath\$testName\bin\Release\.netcoreapp,version=v3.1\publish\$testFile"
+& "$VSPath\vstest.console.exe" /Logger:trx "$repoPath\$testName\bin\Debug\netcoreapp3.1\publish\$testFile"
 #-------------------------------------------------------------------------------------------------
 Write-Output $line
 Write-Output "Running: ""dotnet sonarscanner end /d:sonar.login=""$sonarLogin"""

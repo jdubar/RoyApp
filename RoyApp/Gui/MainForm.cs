@@ -70,7 +70,10 @@ namespace RoyApp
             string duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
             if (duration == "-1")
             {
-                MessageBox.Show("Please enter a value");
+                MessageBox.Show("Please enter a value",
+                                "Value missing",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                 return;
             }
 
