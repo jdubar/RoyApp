@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace RoyApp.Services
@@ -6,11 +7,20 @@ namespace RoyApp.Services
     public interface IListviewService
     {
         void DeleteSelectedItems(object sender);
+        string[] GetHeaderList(ListView listView);
         List<List<string>> GetItemList(ListView listView);
     }
 
     public class ListviewService : IListviewService
     {
+        public string[] GetHeaderList(ListView listView)
+        {
+            return listView.Columns
+                        .OfType<ColumnHeader>()
+                        .Select(header => header.Text.Trim())
+                        .ToArray();
+        }
+
         public List<List<string>> GetItemList(ListView listView)
         {
             List<List<string>> list = new List<List<string>>();

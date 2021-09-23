@@ -5,13 +5,84 @@ namespace RoyApp.Services
 {
     public interface IDataService
     {
-        decimal TimeToDecimal(string time);
-        decimal TimeDuration(string bedtimeRec, string waketimeRec);
+        string[] SplitLineData(string currentLine);
         decimal TimeAverage(decimal timeTotal, int count);
+        decimal TimeDuration(string bedtimeRec, string waketimeRec);
+        decimal TimeToDecimal(string time);
     }
 
     public class DataService : IDataService
     {
+        private static decimal DecimalFormat(decimal time)
+        {
+            var timeAsString = String.Format("{0:0.00}", time);
+
+            if (timeAsString.EndsWith("00"))
+            {
+                return ((int)time);
+            }
+            else
+            {
+                return Convert.ToDecimal(timeAsString);
+            }
+        }
+
+        private bool IsTimeAm(string time)
+        {
+            return !time.Trim()
+                        .EndsWith("PM");
+        }
+
+        public string[] SplitLineData(string line)
+        {
+            string[] cols = line.Split(',');
+            // 0 - id, 1 - bedtime raw, 2 - waketime raw
+            string[] row = {
+                        cols[0].Trim('"'),
+                        cols[1].Trim('"'),
+                        TimeToDecimal(cols[1].Trim('"')).ToString(),
+                        cols[2].Trim('"'),
+                        TimeToDecimal(cols[2].Trim('"')).ToString(),
+                        TimeDuration(TimeToDecimal(cols[1].Trim('"')).ToString(), TimeToDecimal(cols[2].Trim('"')).ToString()).ToString()
+                    };
+            return row;
+        }
+
+        public decimal TimeAverage(decimal timeTotal, int count)
+        {
+            if (count > 0)
+            {
+                return Math.Round(Convert.ToDecimal(timeTotal) / count, 2);
+            }
+            return 0;
+        }
+
+        public decimal TimeDuration(string bedtimeRec, string waketimeRec)
+        {
+            if (String.IsNullOrEmpty(bedtimeRec) || String.IsNullOrEmpty(waketimeRec))
+            {
+                return ((int)-1);
+            }
+
+            var bedtime = Convert.ToDecimal(bedtimeRec);
+            var waketime = Convert.ToDecimal(waketimeRec);
+            if (bedtime > 12)
+            {
+                if (waketime > 12)
+                {
+                    return DecimalFormat((24 - bedtime) - (24 - waketime));
+                }
+                else
+                {
+                    return DecimalFormat((24 - bedtime) + waketime);
+                }
+            }
+            else
+            {
+                return DecimalFormat(waketime - bedtime);
+            }
+        }
+
         public decimal TimeToDecimal(string time)
         {
             var timeNumsOnly = new string(time.Where(c => char.IsDigit(c)).ToArray());
@@ -44,61 +115,6 @@ namespace RoyApp.Services
             }
 
             return hours + Math.Round(fractionalHours, 2);
-        }
-
-        private bool IsTimeAm(string time)
-        {
-            return !time.Trim()
-                        .EndsWith("PM");
-        }
-
-        public decimal TimeDuration(string bedtimeRec, string waketimeRec)
-        {
-            if (String.IsNullOrEmpty(bedtimeRec) || String.IsNullOrEmpty(waketimeRec))
-            {
-                return ((int)-1);
-            }
-
-            var bedtime = Convert.ToDecimal(bedtimeRec);
-            var waketime = Convert.ToDecimal(waketimeRec);
-            if (bedtime > 12)
-            {
-                if (waketime > 12)
-                {
-                    return DecimalFormat((24 - bedtime) - (24 - waketime));
-                }
-                else
-                {
-                    return DecimalFormat((24 - bedtime) + waketime);
-                }
-            }
-            else
-            {
-                return DecimalFormat(waketime - bedtime);
-            }
-        }
-
-        public static decimal DecimalFormat(decimal time)
-        {
-            var s = String.Format("{0:0.00}", time);
-
-            if (s.EndsWith("00"))
-            {
-                return ((int)time);
-            }
-            else
-            {
-                return Convert.ToDecimal(s);
-            }
-        }
-
-        public decimal TimeAverage(decimal timeTotal, int count)
-        {
-            if (count > 0)
-            {
-                return Math.Round(Convert.ToDecimal(timeTotal) / count, 2);
-            }
-            return 0;
         }
     }
 }
