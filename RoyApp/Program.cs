@@ -21,10 +21,9 @@ namespace RoyApp
             var fileService = new FileService();
             var listViewService = new ListviewService();
 
-            Main f1 = new Main(dataService, fileService, listViewService);
+            MainForm f1 = new MainForm(dataService, fileService, listViewService);
             f1.Text = Application.ProductName + " v" + Application.ProductVersion;
             Application.Run(f1);
-
         }
     }
 }

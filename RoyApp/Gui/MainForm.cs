@@ -6,14 +6,14 @@ using System.Windows.Forms;
 
 namespace RoyApp
 {
-    public partial class Main : Form, IMainFormData
+    public partial class MainForm : Form, IMainFormData
     {
         private readonly IDataService _dataService;
         private readonly IFileService _fileService;
         private readonly IListviewService _listviewService;
         private const string csvExt = "csv files (*.csv)|*.csv";
 
-        public Main(IDataService dataService, IFileService fileService, IListviewService listviewService)
+        public MainForm(IDataService dataService, IFileService fileService, IListviewService listviewService)
         {
             InitializeComponent();
             _dataService = dataService;
