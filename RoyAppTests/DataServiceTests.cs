@@ -3,6 +3,7 @@ using RoyApp.Services;
 
 namespace RoyApp.Tests
 {
+    [TestFixture]
     public class DataServiceTests
     {
         [TestCase("12:00 AM", 0.00)]

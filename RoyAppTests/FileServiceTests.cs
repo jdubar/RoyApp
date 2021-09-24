@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace RoyApp.Tests
 {
+    [TestFixture]
     class FileServiceTests
     {
         [TestCase()]
