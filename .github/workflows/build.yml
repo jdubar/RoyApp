@@ -44,11 +44,6 @@ jobs:
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
-        
-    #Run NUnit
-    - name: Run NUnit
-      id: run_nunit
-      run: packages\NUnit.ConsoleRunner.3.12.0\tools\nunit3-console.exe RoyAppTests\bin\Debug\RoyAppTests.dll
 
     # Run the Sonar scanner
     - name: Set up JDK 11
