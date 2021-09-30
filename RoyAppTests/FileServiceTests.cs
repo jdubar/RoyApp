@@ -1,14 +1,13 @@
 ﻿using FakeItEasy;
-using NUnit.Framework;
 using RoyApp.Services;
 using System.Collections.Generic;
+using Xunit;
 
 namespace RoyApp.Tests
 {
-    [TestFixture]
-    class FileServiceTests
+    public class FileServiceTests
     {
-        [TestCase()]
+        [Fact]
         public void FileWriteToCSV_ShouldWriteLine()
         {
             // Arrange

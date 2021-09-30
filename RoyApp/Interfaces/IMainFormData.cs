@@ -7,7 +7,9 @@
         string WaketimeEnteredInForm { get; set; }
         string BedtimeDecInForm { get; set; }
         string WaketimeDecInForm { get; set; }
-        string BedtimeAvg { set; }
-        string WaketimeAvg { set; }
+
+        void SetBedtimeAvg(string value);
+
+        void SetWaketimeAvg(string value);
     }
 }

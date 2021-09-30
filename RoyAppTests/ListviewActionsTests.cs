@@ -1,11 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RoyApp.Services;
-using System;
-using System.Collections.Generic;
-
-namespace RoyApp.Tests
+﻿namespace RoyApp.Tests
 {
-    [TestClass()]
     public class ListviewActionsTests
     {
         //[TestMethod()]

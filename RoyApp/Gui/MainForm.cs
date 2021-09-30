@@ -51,14 +51,14 @@ namespace RoyApp
             set => waketimeDec.Text = value;
         }
 
-        public string BedtimeAvg
+        public void SetBedtimeAvg(string value)
         {
-            set => bedtimeAvg.Text = value;
+            bedtimeAvg.Text = value;
         }
 
-        public string WaketimeAvg
+        public void SetWaketimeAvg(string value)
         {
-            set => waketimeAvg.Text = value;
+            waketimeAvg.Text = value;
         }
 
         private void BedTime_TextChanged(object sender, EventArgs e) => BedtimeDecInForm = _dataService.TimeToDecimal(BedtimeEnteredInForm).ToString();
@@ -154,8 +154,8 @@ namespace RoyApp
                 waketimeTotal += Convert.ToDecimal(listViewDataList.Items[i].SubItems[4].Text);
             }
 
-            BedtimeAvg = _dataService.TimeAverage(bedtimeTotal, listViewDataList.Items.Count).ToString();
-            WaketimeAvg = _dataService.TimeAverage(waketimeTotal, listViewDataList.Items.Count).ToString();
+            SetBedtimeAvg(_dataService.TimeAverage(bedtimeTotal, listViewDataList.Items.Count).ToString());
+            SetWaketimeAvg(_dataService.TimeAverage(waketimeTotal, listViewDataList.Items.Count).ToString());
         }
 
         private void ClearAllData()
@@ -167,8 +167,8 @@ namespace RoyApp
 
         private void ClearAverages()
         {
-            BedtimeAvg = "0";
-            WaketimeAvg = "0";
+            SetBedtimeAvg("0");
+            SetWaketimeAvg("0");
         }
 
         private void ClearTextData()
@@ -188,13 +188,11 @@ namespace RoyApp
                                  openFileDialog.FilterIndex = 2;
                                  openFileDialog.RestoreDirectory = true;
 
-            switch (openFileDialog.ShowDialog())
+            return openFileDialog.ShowDialog() switch
             {
-                case DialogResult.OK:
-                    return openFileDialog.OpenFile();
-                default:
-                    return null;
-            }
+                DialogResult.OK => openFileDialog.OpenFile(),
+                _ => null,
+            };
         }
 
         private string ShowSaveDialog()
@@ -205,9 +203,10 @@ namespace RoyApp
                                  exportFileDialog.RestoreDirectory = true;
 
             Stream fileStream;
+            Stream stream = fileStream = exportFileDialog.OpenFile();
             switch (exportFileDialog.ShowDialog())
             {
-                case DialogResult.OK when (fileStream = exportFileDialog.OpenFile()) != null:
+                case DialogResult.OK when stream != null:
                     fileStream.Close();
                     return exportFileDialog.FileName;
                 default:
