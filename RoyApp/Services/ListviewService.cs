@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RoyApp.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace RoyApp.Services
 {
-    public interface IListviewService
-    {
-        void DeleteSelectedItems(object sender);
-        string[] GetHeaderList(ListView listView);
-        List<List<string>> GetItemList(ListView listView);
-    }
-
     public class ListviewService : IListviewService
     {
         public string[] GetHeaderList(ListView listView)
@@ -42,6 +36,18 @@ namespace RoyApp.Services
             {
                 item.Remove();
             }
+        }
+
+        public void AddItemToListView(ListView listView, string[] row)
+        {
+            var listViewItem = new ListViewItem(row);
+            listView.Items.Add(listViewItem);
+        }
+
+        public void ColumnSetAutoAdjust(ListView listView, int col)
+        {
+            // auto-adjust the ID column width based on text
+            listView.Columns[col].Width = -1;
         }
     }
 }

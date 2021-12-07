@@ -11,14 +11,16 @@ namespace RoyApp
         private readonly IDataService _dataService;
         private readonly IFileService _fileService;
         private readonly IListviewService _listviewService;
+        private readonly IMessageBoxService _messageBoxService;
         private const string csvExt = "csv files (*.csv)|*.csv";
 
-        public MainForm(IDataService dataService, IFileService fileService, IListviewService listviewService)
+        public MainForm(IDataService dataService, IFileService fileService, IListviewService listviewService, IMessageBoxService messageBoxService)
         {
             InitializeComponent();
             _dataService = dataService;
             _fileService = fileService;
             _listviewService = listviewService;
+            _messageBoxService = messageBoxService;
         }
 
         public string IdInForm
@@ -51,48 +53,37 @@ namespace RoyApp
             set => waketimeDec.Text = value;
         }
 
-        public void SetBedtimeAvg(string value)
-        {
-            bedtimeAvg.Text = value;
-        }
+        public void SetBedtimeAvg(string value) => bedtimeAvg.Text = value;
 
-        public void SetWaketimeAvg(string value)
-        {
-            waketimeAvg.Text = value;
-        }
+        public void SetWaketimeAvg(string value) => waketimeAvg.Text = value;
 
         private void BedTime_TextChanged(object sender, EventArgs e) => BedtimeDecInForm = _dataService.TimeToDecimal(BedtimeEnteredInForm).ToString();
 
         private void Waketime_TextChanged(object sender, EventArgs e) => WaketimeDecInForm = _dataService.TimeToDecimal(WaketimeEnteredInForm).ToString();
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
+        private void Add_OnClick(object sender, EventArgs e)
         {
-            string duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
+            var duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
             if (duration == "-1")
             {
-                MessageBox.Show("Please enter a value",
-                                "Value missing",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                _messageBoxService.ValueMissing();
                 return;
             }
 
-            string[] row = { IdInForm, BedtimeEnteredInForm, BedtimeDecInForm, WaketimeEnteredInForm, WaketimeDecInForm, duration };
-            var listViewItem = new ListViewItem(row);
-            listViewDataList.Items.Add(listViewItem);
+            _listviewService.AddItemToListView(listViewDataList,
+                                               new string[] { IdInForm, BedtimeEnteredInForm, BedtimeDecInForm, WaketimeEnteredInForm, WaketimeDecInForm, duration });
 
             CalculateTotals();
-            // auto-adjust the ID column width based on text
-            listViewDataList.Columns[0].Width = -1;
+            _listviewService.ColumnSetAutoAdjust(listViewDataList, 0);
             ClearTextData();
         }
 
-        private void ButtonClear_Click(object sender, EventArgs e)
+        private void Clear_OnClick(object sender, EventArgs e)
         {
             ClearAllData();
         }
 
-        private void ButtonExport_Click(object sender, EventArgs e)
+        private void Export_OnClick(object sender, EventArgs e)
         {
             var filePath = ShowSaveDialog();
             if (filePath != null)
@@ -102,22 +93,16 @@ namespace RoyApp
                     _fileService.WriteToCsv(_listviewService.GetItemList(listViewDataList),
                                             _listviewService.GetHeaderList(listViewDataList),
                                             filePath);
-                    MessageBox.Show("File successfully exported!",
-                                    "Success",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                    _messageBoxService.ExportSuccess();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message,
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    _messageBoxService.Error(ex);
                 }
             }
         }
 
-        private void ButtonImport_Click(object sender, EventArgs e)
+        private void Import_OnClick(object sender, EventArgs e)
         {
             var fileStream = ShowOpenDialog();
             if (fileStream != null)
@@ -183,10 +168,10 @@ namespace RoyApp
         private Stream ShowOpenDialog()
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog();
-                                 openFileDialog.InitialDirectory = "";
-                                 openFileDialog.Filter = csvExt;
-                                 openFileDialog.FilterIndex = 2;
-                                 openFileDialog.RestoreDirectory = true;
+            openFileDialog.InitialDirectory = "";
+            openFileDialog.Filter = csvExt;
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
 
             return openFileDialog.ShowDialog() switch
             {
@@ -198,12 +183,12 @@ namespace RoyApp
         private string ShowSaveDialog()
         {
             using SaveFileDialog exportFileDialog = new SaveFileDialog();
-                                 exportFileDialog.Filter = csvExt;
-                                 exportFileDialog.FilterIndex = 2;
-                                 exportFileDialog.RestoreDirectory = true;
+            exportFileDialog.Filter = csvExt;
+            exportFileDialog.FilterIndex = 2;
+            exportFileDialog.RestoreDirectory = true;
 
             Stream fileStream;
-            Stream stream = fileStream = exportFileDialog.OpenFile();
+            using var stream = fileStream = exportFileDialog.OpenFile();
             switch (exportFileDialog.ShowDialog())
             {
                 case DialogResult.OK when stream != null:
@@ -216,7 +201,7 @@ namespace RoyApp
 
         private void DataList_DeleteItem(object sender, KeyEventArgs e)
         {
-            if (Keys.Delete == e.KeyCode)
+            if (e.KeyCode == Keys.Delete)
             {
                 _listviewService.DeleteSelectedItems(sender);
                 CalculateTotals();

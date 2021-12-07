@@ -176,7 +176,7 @@ namespace RoyApp
             this.buttonAdd.TabIndex = 8;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
+            this.buttonAdd.Click += new System.EventHandler(this.Add_OnClick);
             // 
             // label5
             // 
@@ -260,7 +260,7 @@ namespace RoyApp
             this.buttonClear.Text = "Clear Data";
             this.buttonClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.ButtonClear_Click);
+            this.buttonClear.Click += new System.EventHandler(this.Clear_OnClick);
             // 
             // buttonExport
             // 
@@ -273,7 +273,7 @@ namespace RoyApp
             this.buttonExport.TabIndex = 17;
             this.buttonExport.Text = "Export";
             this.buttonExport.UseVisualStyleBackColor = true;
-            this.buttonExport.Click += new System.EventHandler(this.ButtonExport_Click);
+            this.buttonExport.Click += new System.EventHandler(this.Export_OnClick);
             // 
             // buttonImport
             // 
@@ -285,7 +285,7 @@ namespace RoyApp
             this.buttonImport.TabIndex = 18;
             this.buttonImport.Text = "Import";
             this.buttonImport.UseVisualStyleBackColor = true;
-            this.buttonImport.Click += new System.EventHandler(this.ButtonImport_Click);
+            this.buttonImport.Click += new System.EventHandler(this.Import_OnClick);
             // 
             // Main
             // 
