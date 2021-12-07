@@ -25,28 +25,15 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-
-    - name: sonarscan-dotnet
-      # You may pin to the exact commit or the version.
-      # uses: highbyte/sonarscan-dotnet@6584149b4962868d0a5808f58c56f591c9960925
-      uses: highbyte/sonarscan-dotnet@2.0
-      with:
-        # The key of the SonarQube project
-        sonarProjectKey: jdubar_RoyApp
-        # The name of the SonarQube project
-        sonarProjectName: RoyApp
-        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-        sonarOrganization: jdubar
-        # Optional command arguments to dotnet test
-        dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-        # Optional extra command arguments the the SonarScanner 'begin' command
-        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+    - name: Begin Sonar scan
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet sonarscanner begin /o:jdubar /k:jdubar_RoyApp /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
         
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build project and run unit tests
+      run: |
+        dotnet build ${{Solution_Name}} --no-restore
+        dotnet test ${{Test_Project_Path}} --no-build --no-restore --verbosity normal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+
+    - name: End Sonar scan
+      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
