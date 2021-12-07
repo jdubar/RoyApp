@@ -41,8 +41,8 @@ jobs:
         
     - name: Build project and run unit tests
       run: |
-        dotnet build ${{ env.Solution_Name }}
-        dotnet test ${{ env.Test_Project_Path }} --logger trx --collect:"XPlat Code Coverage" -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+        dotnet build ${{ env.Solution_Name }} --no-restore
+        dotnet test ${{ env.Test_Project_Path }} --no-build --no-restore --verbosity normal --logger trx --collect:"XPlat Code Coverage" -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 
     - name: End Sonar scan
       env:
