@@ -25,26 +25,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-
-    # Execute all unit tests in the solution
-    #- name: Execute unit tests
-    #  run: dotnet test
-
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
-
     # Run the Sonar scanner
     - name: Set up JDK 11
       uses: actions/setup-java@v1
@@ -53,32 +33,20 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1
-      with:
-        path: ~\sonar\cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
-    - name: Cache SonarCloud scanner
-      id: cache-sonar-scanner
-      uses: actions/cache@v1
-      with:
-        path: .\.sonar\scanner
-        key: ${{ runner.os }}-sonar-scanner
-        restore-keys: ${{ runner.os }}-sonar-scanner
-    - name: Install SonarCloud scanner
-      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      shell: powershell
+        
+    - name: Begin Sonar scan
       run: |
-        New-Item -Path .\.sonar\scanner -ItemType Directory
-        dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-    - name: Build and analyze
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet sonarscanner begin /k:"jdubar_RoyApp" /o:"jdubar" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+        
+    - name: Build project and run unit tests
+      run: |
+        dotnet build ${{ env.Solution_Name }} --no-restore
+        dotnet test ${{ env.Test_Project_Path }} --no-build --no-restore --verbosity normal --logger trx --collect:"XPlat Code Coverage" -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+
+    - name: End Sonar scan
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: powershell
       run: |
-        .\.sonar\scanner\dotnet-sonarscanner begin /k:"jdubar_RoyApp" /o:"jdubar" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.nunit.reportsPaths=**/TestResult.xml
-        dotnet build
-        dotnet test --collect:"XPlat Code Coverage"
-        .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
