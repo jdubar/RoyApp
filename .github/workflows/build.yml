@@ -34,7 +34,7 @@ jobs:
     - name: sonarscan-dotnet
       # You may pin to the exact commit or the version.
       # uses: highbyte/sonarscan-dotnet@150e3056f1ce7b77c84e7661124f39a3ea1ac6cd
-      uses: highbyte/sonarscan-dotnet@v2.1.2
+      uses: highbyte/sonarscan-dotnet@v2.0
       with:
         # The key of the SonarQube project
         sonarProjectKey: jdubar_RoyApp
