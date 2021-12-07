@@ -20,6 +20,9 @@ jobs:
       Test_Project_Path: RoyAppTests\RoyAppTests.csproj         # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
     steps:
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.Solution_Name }}
+    
     - name: Checkout
       uses: actions/checkout@v2
       with:
