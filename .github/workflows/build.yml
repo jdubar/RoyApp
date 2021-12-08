@@ -45,7 +45,7 @@ jobs:
         
     - name: Run unit tests
       run: |
-        dotnet test --settings coverlet.runsettings --logger:trx
+        dotnet test --logger trx -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 
     - name: End Sonar scan
       env:
