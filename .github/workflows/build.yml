@@ -20,9 +20,9 @@ jobs:
       Test_Project_Path: RoyAppTests\RoyAppTests.csproj         # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2.2.0
       with:
+        # Disabling shallow clone is recommended for improving relevancy of sonarqube reporting
         fetch-depth: 0
 
     # Run the Sonar scanner
@@ -30,14 +30,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        
+    - name: Install dependencies
+      run: dotnet restore
         
     - name: Begin Sonar scan
       run: |
         dotnet tool install --global dotnet-sonarscanner
-        dotnet sonarscanner begin /k:"jdubar_RoyApp" /o:"jdubar" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml
+        dotnet sonarscanner begin /k:"jdubar_RoyApp" /o:"jdubar" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
         
     - name: Build project
       run: |
@@ -45,7 +45,7 @@ jobs:
         
     - name: Run unit tests
       run: |
-        dotnet test ${{ env.Test_Project_Path }} --no-build --no-restore --verbosity normal --logger trx -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+        dotnet test --logger trx -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 
     - name: End Sonar scan
       env:
