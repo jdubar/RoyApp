@@ -30,6 +30,24 @@ namespace RoyApp.Tests
         }
 
         [Theory]
+        [InlineData(50, 5, 10)]
+        [InlineData(10, 5, 2)]
+        public void TimeAverage_ShouldEqual_ExpectedAverage(decimal bedtimeTotal, int bedtimeCount, decimal expected)
+        {
+            var dataService = new DataService();
+            dataService.TimeAverage(bedtimeTotal, bedtimeCount).Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(50, 5, 5)]
+        [InlineData(28, 7, 14)]
+        [InlineData(28, 0, 14)]
+        public void TimeAverage_ShouldNotEqual_ExpectedAverage(decimal bedtimeTotal, int bedtimeCount, decimal expected)
+        {
+            var dataService = new DataService();
+            dataService.TimeAverage(bedtimeTotal, bedtimeCount).Should().NotBe(expected);
+        }
+        [Theory]
         [InlineData("22", "8", 10)]
         [InlineData("20", "4", 8)]
         [InlineData("6", "12", 6)]
@@ -44,28 +62,11 @@ namespace RoyApp.Tests
         [InlineData("22", "8", 12)]
         [InlineData("6", "12", 12)]
         [InlineData("6", null, 12)]
+        [InlineData(null, "6", 12)]
         public void TimeDuration_ShouldNotEqual_ExpectedDuration(string enteredBedtimeRec, string enteredWaketimeRec, decimal expected)
         {
             var dataService = new DataService();
             dataService.TimeDuration(enteredBedtimeRec, enteredWaketimeRec).Should().NotBe(expected);
-        }
-
-        [Theory]
-        [InlineData(50, 5, 10)]
-        [InlineData(10, 5, 2)]
-        public void TimeAverage_ShouldEqual_ExpectedAverage(decimal bedtimeTotal, int bedtimeCount, decimal expected)
-        {
-            var dataService = new DataService();
-            dataService.TimeAverage(bedtimeTotal, bedtimeCount).Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData(50, 5, 5)]
-        [InlineData(28, 7, 14)]
-        public void TimeAverage_ShouldNotEqual_ExpectedAverage(decimal bedtimeTotal, int bedtimeCount, decimal expected)
-        {
-            var dataService = new DataService();
-            dataService.TimeAverage(bedtimeTotal, bedtimeCount).Should().NotBe(expected);
         }
     }
 }
