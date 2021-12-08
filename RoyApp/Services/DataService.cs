@@ -1,16 +1,9 @@
-﻿using System;
+﻿using RoyApp.Interfaces;
+using System;
 using System.Linq;
 
 namespace RoyApp.Services
 {
-    public interface IDataService
-    {
-        string[] SplitLineData(string currentLine);
-        decimal TimeAverage(decimal timeTotal, int count);
-        decimal TimeDuration(string bedtimeRec, string waketimeRec);
-        decimal TimeToDecimal(string time);
-    }
-
     public class DataService : IDataService
     {
         private static decimal DecimalFormat(decimal time)

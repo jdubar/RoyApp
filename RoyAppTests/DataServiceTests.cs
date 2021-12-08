@@ -33,6 +33,7 @@ namespace RoyApp.Tests
         [InlineData("22", "8", 10)]
         [InlineData("20", "4", 8)]
         [InlineData("6", "12", 6)]
+        [InlineData("6.5", "12", 5.5)]
         public void TimeDuration_ShouldEqual_ExpectedDuration(string enteredBedtimeRec, string enteredWaketimeRec, decimal expected)
         {
             var dataService = new DataService();
