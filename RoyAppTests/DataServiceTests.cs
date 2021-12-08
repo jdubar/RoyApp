@@ -22,7 +22,7 @@ namespace RoyApp.Tests
         [Theory]
         [InlineData("12:00 AM", 12.00)]
         [InlineData("1:45 AM", 13.75)]
-        [InlineData("1", 1)]
+        [InlineData("101 AM", 1)]
         public void BedtimeRaw_AMPM_ShouldNotEqual_ExpectedDecimal(string timeAsString, decimal expected)
         {
             var dataService = new DataService();

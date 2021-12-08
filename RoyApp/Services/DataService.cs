@@ -86,7 +86,7 @@ namespace RoyApp.Services
 
             bool IsTimeAM = IsTimeAm(time);
 
-            if ((timeNumsOnly.Length > 3) && (Convert.ToDecimal(timeNumsOnly[0..2]) >= 12))
+            if ((timeNumsOnly.Length > 3) && (Convert.ToDecimal(timeNumsOnly[0..2]) > 12))
             {
                 IsTimeAM = false;
             }
