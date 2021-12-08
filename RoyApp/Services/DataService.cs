@@ -59,9 +59,9 @@ namespace RoyApp.Services
 
             var bedtime = Convert.ToDecimal(bedtimeRec);
             var waketime = Convert.ToDecimal(waketimeRec);
-            if (bedtime > 12)
+            if (bedtime >= 12)
             {
-                if (waketime > 12)
+                if (waketime >= 12)
                 {
                     return DecimalFormat((24 - bedtime) - (24 - waketime));
                 }
@@ -86,7 +86,7 @@ namespace RoyApp.Services
 
             bool IsTimeAM = IsTimeAm(time);
 
-            if ((timeNumsOnly.Length > 3) && (Convert.ToDecimal(timeNumsOnly[0..2]) > 12))
+            if ((timeNumsOnly.Length > 3) && (Convert.ToDecimal(timeNumsOnly[0..2]) >= 12))
             {
                 IsTimeAM = false;
             }

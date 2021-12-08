@@ -59,14 +59,23 @@ namespace RoyApp.Tests
         }
 
         [Theory]
-        [InlineData("22", "8", 12)]
-        [InlineData("6", "12", 12)]
-        [InlineData("6", null, 12)]
-        [InlineData(null, "6", 12)]
+        [InlineData("22", "8",  12)]
+        [InlineData("14", "13", 12)]
+        [InlineData("6", "12",  12)]
+        [InlineData("6", null,  12)]
+        [InlineData(null, "6",  12)]
         public void TimeDuration_ShouldNotEqual_ExpectedDuration(string enteredBedtimeRec, string enteredWaketimeRec, decimal expected)
         {
             var dataService = new DataService();
             dataService.TimeDuration(enteredBedtimeRec, enteredWaketimeRec).Should().NotBe(expected);
+        }
+
+        [Theory]
+        [InlineData("1,12:00 PM,8:00 AM", new string[] { "1", "12:00 PM", "12", "8:00 AM", "8", "20" })]
+        public void LineData_ShouldEqual_ExpectedArray(string enteredLineData, string[] expected)
+        {
+            var dataService = new DataService();
+            dataService.SplitLineData(enteredLineData).Should().Equal(expected);
         }
     }
 }
