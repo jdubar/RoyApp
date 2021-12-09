@@ -1,5 +1,5 @@
 ﻿using FakeItEasy;
-using RoyApp.Services;
+using RoyApp.Interfaces;
 using System.Collections.Generic;
 using Xunit;
 
@@ -8,7 +8,7 @@ namespace RoyApp.Tests
     public class FileServiceTests
     {
         [Fact]
-        public void FileWriteToCSV_ShouldWriteLine()
+        public void FileWriteToCSV_Should_WriteLine()
         {
             // Arrange
             var fileService = A.Fake<IFileService>();

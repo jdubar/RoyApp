@@ -1,15 +1,11 @@
-﻿using System;
+﻿using RoyApp.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace RoyApp.Services
 {
-    public interface IFileService
-    {
-        void WriteToCsv(List<List<string>> itemList, string[] headers, string filePath);
-    }
-
     public class FileService : IFileService
     {
         public void WriteToCsv(List<List<string>> itemList, string[] headers, string filePath)
