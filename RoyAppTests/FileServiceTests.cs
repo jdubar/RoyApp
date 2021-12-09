@@ -1,6 +1,5 @@
 ﻿using FakeItEasy;
 using RoyApp.Interfaces;
-using System.Collections.Generic;
 using Xunit;
 
 namespace RoyApp.Tests
@@ -8,20 +7,34 @@ namespace RoyApp.Tests
     public class FileServiceTests
     {
         [Fact]
-        public void FileWriteToCSV_Should_WriteLine()
+        public void EmptyFile_Should_ReturnFalse()
+        {
+            //Arrange
+            var fileService = A.Fake<IFileService>();
+
+            string FilePath = "";
+
+            // Act
+            var fileExists = fileService.IsFileExists(FilePath);
+
+            //Assert
+            Assert.False(fileExists);
+        }
+
+        [Fact]
+        public void WriteLine_Should_WriteToFile()
         {
             // Arrange
             var fileService = A.Fake<IFileService>();
 
-            List<List<string>> TestList = null;
             string[] headers = { "id", "data1", "data2" };
-            string FilePath = @"C:\test.csv";
+            string filePath = @"C:\test.csv";
 
             // Act
-            fileService.WriteToCsv(TestList, headers, FilePath);
+            fileService.WriteLine(filePath, headers);
 
             // Assert
-            A.CallTo(() => fileService.WriteToCsv(TestList, headers, FilePath)).MustHaveHappened();
+            A.CallTo(() => fileService.WriteLine(filePath, headers)).MustHaveHappenedOnceExactly();
         }
     }
 }

@@ -4,6 +4,8 @@ namespace RoyApp.Interfaces
 {
     public interface IFileService
     {
-        void WriteToCsv(List<List<string>> itemList, string[] headers, string filePath);
+        bool IsFileExists(string filePath);
+        void WriteDataToFile(string filePath, string[] headers, List<List<string>> itemList);
+        void WriteLine(string filePath, string[] dataLine);
     }
 }

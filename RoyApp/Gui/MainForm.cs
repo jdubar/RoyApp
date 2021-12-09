@@ -90,9 +90,9 @@ namespace RoyApp
             {
                 try
                 {
-                    _fileService.WriteToCsv(_listviewService.GetItemList(listViewDataList),
-                                            _listviewService.GetHeaderList(listViewDataList),
-                                            filePath);
+                    _fileService.WriteDataToFile(filePath,
+                            _listviewService.GetHeaderList(listViewDataList),
+                            _listviewService.GetItemList(listViewDataList));
                     _messageBoxService.ExportSuccess();
                 }
                 catch (Exception ex)

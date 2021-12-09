@@ -8,27 +8,43 @@ namespace RoyApp.Services
 {
     public class FileService : IFileService
     {
-        public void WriteToCsv(List<List<string>> itemList, string[] headers, string filePath)
+        private const string SEPARATOR = ",";
+
+        public void WriteDataToFile(string filePath, string[] headers, List<List<string>> itemList)
         {
-            bool isNullOrEmpty = itemList?.Any() != true;
-            if (isNullOrEmpty)
-            {
-                throw new ArgumentNullException(nameof(itemList));
-            }
-            if (string.IsNullOrEmpty(filePath))
+            if (!IsFileExists(filePath))
             {
                 throw new ArgumentException($"'{nameof(filePath)}' cannot be null or empty.", nameof(filePath));
             }
 
-            const string SEPARATOR = ",";
+            if (itemList?.Any() != true)
+            {
+                throw new ArgumentNullException(nameof(itemList));
+            }
+
+            if (headers?.Any() != true)
+            {
+                throw new ArgumentNullException(nameof(headers));
+            }
+
+            WriteLine(filePath, headers);
+            itemList.ForEach(line =>
+            {
+                WriteLine(filePath,
+                    line.Select(c => c.Contains(SEPARATOR) ? c.Replace(SEPARATOR.ToString(), "\\" + SEPARATOR) : c).ToArray()
+                    );
+            });
+        }
+
+        public bool IsFileExists(string filePath)
+        {
+            return File.Exists(filePath);
+        }
+
+        public void WriteLine(string filePath, string[] dataLine)
+        {
             using StreamWriter writer = new StreamWriter(filePath);
-                writer.WriteLine(string.Join(",", headers) + Environment.NewLine);
-                itemList.ForEach(line =>
-                {
-                    var lineArray = line.Select(c =>
-                        c.Contains(SEPARATOR) ? c.Replace(SEPARATOR.ToString(), "\\" + SEPARATOR) : c).ToArray();
-                    writer.WriteLine(string.Join(SEPARATOR, lineArray));
-                });
+            writer.WriteLine(string.Join(SEPARATOR, dataLine) + Environment.NewLine);
         }
     }
 }
