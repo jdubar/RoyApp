@@ -1,5 +1,7 @@
 ﻿using FakeItEasy;
+using Moq;
 using RoyApp.Interfaces;
+using RoyApp.Services;
 using Xunit;
 
 namespace RoyApp.Tests
@@ -9,16 +11,16 @@ namespace RoyApp.Tests
         [Fact]
         public void EmptyFile_Should_ReturnFalse()
         {
-            //Arrange
-            var fileService = A.Fake<IFileService>();
-
-            string FilePath = "";
+            // Arrange
+            string filePath = @"E:\test.csv";
+            var mock = new Mock<IFileService>();
+            mock.Setup(_ => _.Exists(filePath)).Returns(false);
 
             // Act
-            var fileExists = fileService.IsFileExists(FilePath);
+            var fs = new FileService(mock.Object);
 
             //Assert
-            Assert.False(fileExists);
+            Assert.False(fs.Exists(filePath));
         }
 
         [Fact]

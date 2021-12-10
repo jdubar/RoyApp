@@ -1,5 +1,6 @@
 ﻿using RoyApp.Interfaces;
 using RoyApp.Services;
+using RoyApp.Wrappers;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -9,16 +10,14 @@ namespace RoyApp
     public partial class MainForm : Form, IMainFormData
     {
         private readonly IDataService _dataService;
-        private readonly IFileService _fileService;
         private readonly IListviewService _listviewService;
         private readonly IMessageBoxService _messageBoxService;
         private const string csvExt = "csv files (*.csv)|*.csv";
 
-        public MainForm(IDataService dataService, IFileService fileService, IListviewService listviewService, IMessageBoxService messageBoxService)
+        public MainForm(IDataService dataService, IListviewService listviewService, IMessageBoxService messageBoxService)
         {
             InitializeComponent();
             _dataService = dataService;
-            _fileService = fileService;
             _listviewService = listviewService;
             _messageBoxService = messageBoxService;
         }
@@ -90,7 +89,8 @@ namespace RoyApp
             {
                 try
                 {
-                    _fileService.WriteDataToFile(filePath,
+                    var fileService = new FileService(new FileIoWrapper());
+                    fileService.WriteDataToFile(filePath,
                             _listviewService.GetHeaderList(listViewDataList),
                             _listviewService.GetItemList(listViewDataList));
                     _messageBoxService.ExportSuccess();
