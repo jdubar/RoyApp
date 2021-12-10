@@ -3,6 +3,6 @@
     public interface IFileService
     {
         bool Exists(string filePath);
-        void WriteLine(string filePath, string[] dataLine);
+        bool WriteLine(string filePath, string[] dataLine);
     }
 }

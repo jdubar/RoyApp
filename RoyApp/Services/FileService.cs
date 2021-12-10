@@ -43,9 +43,9 @@ namespace RoyApp.Services
             return _fileService.Exists(filePath);
         }
 
-        public void WriteLine(string filePath, string[] dataLine)
+        public bool WriteLine(string filePath, string[] dataLine)
         {
-            _fileService.WriteLine(filePath, dataLine);
+            return _fileService.WriteLine(filePath, dataLine);
         }
     }
 }

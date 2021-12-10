@@ -13,10 +13,18 @@ namespace RoyApp.Wrappers
             return File.Exists(filePath);
         }
 
-        public void WriteLine(string filePath, string[] dataLine)
+        public bool WriteLine(string filePath, string[] dataLine)
         {
-            using StreamWriter writer = new StreamWriter(filePath);
-            writer.WriteLine(string.Join(SEPARATOR, dataLine) + Environment.NewLine);
+            try
+            {
+                using StreamWriter writer = new StreamWriter(filePath);
+                writer.WriteLine(string.Join(SEPARATOR, dataLine) + Environment.NewLine);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

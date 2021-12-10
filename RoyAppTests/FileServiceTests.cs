@@ -1,5 +1,4 @@
-﻿using FakeItEasy;
-using Moq;
+﻿using Moq;
 using RoyApp.Interfaces;
 using RoyApp.Services;
 using Xunit;
@@ -27,16 +26,32 @@ namespace RoyApp.Tests
         public void WriteLine_Should_WriteToFile()
         {
             // Arrange
-            var fileService = A.Fake<IFileService>();
-
             string[] headers = { "id", "data1", "data2" };
             string filePath = @"C:\test.csv";
+            var mock = new Mock<IFileService>();
+            mock.Setup(_ => _.WriteLine(filePath, headers)).Returns(true);
 
             // Act
-            fileService.WriteLine(filePath, headers);
+            var fs = new FileService(mock.Object);
 
             // Assert
-            A.CallTo(() => fileService.WriteLine(filePath, headers)).MustHaveHappenedOnceExactly();
+            Assert.True(fs.WriteLine(filePath, headers));
+        }
+
+        [Fact]
+        public void WriteLine_ShouldNot_WriteToFile()
+        {
+            // Arrange
+            string[] headers = { "id", "data1", "data2" };
+            string filePath = @"C:\test.csv";
+            var mock = new Mock<IFileService>();
+            mock.Setup(_ => _.WriteLine(filePath, headers)).Returns(false);
+
+            // Act
+            var fs = new FileService(mock.Object);
+
+            // Assert
+            Assert.False(fs.WriteLine(filePath, headers));
         }
     }
 }
