@@ -1,5 +1,4 @@
 ﻿using RoyApp.Interfaces;
-using System.IO;
 
 namespace RoyApp.Gui.Components
 {
@@ -8,7 +7,7 @@ namespace RoyApp.Gui.Components
         private readonly IViewDialog _viewDialog;
         public ViewDialog(IViewDialog viewDialog) => _viewDialog = viewDialog;
 
-        public Stream ShowOpenDialog()
+        public string ShowOpenDialog()
         {
             return _viewDialog.Open();
         }

@@ -17,21 +17,6 @@ namespace RoyApp.Services
                         .ToArray();
         }
 
-        //public List<List<string>> GetItemList(ListView listView)
-        //{
-        //    List<List<string>> list = new List<List<string>>();
-        //    for (int i = 0; i < listView.Items.Count; i++)
-        //    {
-        //        List<string> subs = new List<string>();
-        //        for (int j = 0; j < listView.Items[i].SubItems.Count; j++)
-        //        {
-        //            subs.Add(listView.Items[i].SubItems[j].Text);
-        //        }
-        //        list.Add(subs);
-        //    }
-        //    return list;
-        //}
-
         public string GetItemList(ListView listView)
         {
             var allItems = new StringBuilder("");
@@ -59,6 +44,14 @@ namespace RoyApp.Services
         {
             var listViewItem = new ListViewItem(row);
             listView.Items.Add(listViewItem);
+        }
+
+        public void AddListOfItemsToListView(ListView listView, List<string[]> dataList)
+        {
+            foreach (string[] row in dataList)
+            {
+                AddItemToListView(listView, row);
+            }
         }
 
         public void ColumnSetAutoAdjust(ListView listView, int col)

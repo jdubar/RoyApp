@@ -30,13 +30,13 @@ namespace RoyApp.Tests
             string[] headers = { "id", "data1", "data2" };
             string filePath = @"C:\test.csv";
             var mock = new Mock<IFileService>();
-            mock.Setup(_ => _.WriteLine(filePath, headers)).Returns(true);
+            mock.Setup(_ => _.WriteHeader(filePath, headers)).Returns(true);
 
             // Act
             var fs = new FileService(mock.Object);
 
             // Assert
-            Assert.True(fs.WriteLine(filePath, headers));
+            Assert.True(fs.WriteHeader(filePath, headers));
         }
 
         [Fact]
@@ -46,22 +46,22 @@ namespace RoyApp.Tests
             string[] headers = { "id", "data1", "data2" };
             string filePath = @"C:\test.csv";
             var mock = new Mock<IFileService>();
-            mock.Setup(_ => _.WriteLine(filePath, headers)).Returns(false);
+            mock.Setup(_ => _.WriteHeader(filePath, headers)).Returns(false);
 
             // Act
             var fs = new FileService(mock.Object);
 
             // Assert
-            Assert.False(fs.WriteLine(filePath, headers));
+            Assert.False(fs.WriteHeader(filePath, headers));
         }
 
-        [Theory]
-        [InlineData(@"C:\test.csv", new string[] { "id", "bedtime", "waketime" }, new List<List<string>> { "1", "10:00 PM", "8:00 AM" })]
-        public void WriteDataToFile_Should_WriteToFile(string filePath, string[] headers, List<List<string>> itemList)
-        {
-            // Arrange
-            var mock = new Mock<IFileService>();
-            mock.Setup(_ => _.)
-        }
+        //[Theory]
+        //[InlineData(@"C:\test.csv", new string[] { "id", "bedtime", "waketime" }, new List<List<string>> { "1", "10:00 PM", "8:00 AM" })]
+        //public void WriteDataToFile_Should_WriteToFile(string filePath, string[] headers, List<List<string>> itemList)
+        //{
+        //    // Arrange
+        //    var mock = new Mock<IFileService>();
+        //    mock.Setup(_ => _.)
+        //}
     }
 }

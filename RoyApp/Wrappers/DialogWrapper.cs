@@ -6,7 +6,7 @@ namespace RoyApp.Gui.Components
 {
     internal class DialogWrapper : IViewDialog
     {
-        public Stream Open()
+        public string Open()
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = "";
@@ -14,11 +14,7 @@ namespace RoyApp.Gui.Components
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
 
-            return openFileDialog.ShowDialog() switch
-            {
-                DialogResult.OK => openFileDialog.OpenFile(),
-                _ => null,
-            };
+            return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : null;
         }
 
         public string Save()

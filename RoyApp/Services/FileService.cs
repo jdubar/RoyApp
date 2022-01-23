@@ -1,5 +1,6 @@
 ﻿using RoyApp.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RoyApp.Services
@@ -9,6 +10,11 @@ namespace RoyApp.Services
         private readonly IFileService _fileService;
 
         public FileService(IFileService fileService) => _fileService = fileService;
+
+        public List<string[]> ReadImportData(string filePath)
+        {
+            return _fileService.ReadImportData(filePath);
+        }
 
         public void WriteDataToFile(string filePath, string[] headers, string itemList)
         {

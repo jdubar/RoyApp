@@ -88,7 +88,7 @@ namespace RoyApp
             {
                 try
                 {
-                    var fileService = new FileService(new FileIoWrapper());
+                    var fileService = new FileService(new FileIoWrapper(_dataService));
                     fileService.WriteDataToFile(filePath,
                             _listviewService.GetHeaderList(listViewDataList),
                             _listviewService.GetItemList(listViewDataList));
@@ -103,28 +103,18 @@ namespace RoyApp
 
         private void Import_OnClick(object sender, EventArgs e)
         {
-            //var fileStream = ShowOpenDialog();
-            //if (fileStream != null)
-            //{
-            //    ClearAllData();
+            var filePath = new ViewDialog(new DialogWrapper()).ShowOpenDialog();
+            if (filePath != null)
+            {
+                ClearAllData();
 
-            //    using StreamReader reader = new StreamReader(fileStream);
-            //    // skip the header line
-            //    reader.ReadLine();
-            //    string currentLine;
+                var fileService = new FileService(new FileIoWrapper(_dataService));
+                var data = fileService.ReadImportData(filePath);
+                _listviewService.AddListOfItemsToListView(listViewDataList, data);
 
-            //    // currentLine will be null when the StreamReader reaches the end of file
-            //    while ((currentLine = reader.ReadLine()) != null)
-            //    {
-            //        string[] row = _dataService.SplitLineData(currentLine);
-            //        var listViewItem = new ListViewItem(row);
-            //        listViewDataList.Items.Add(listViewItem);
-            //    }
-
-            //    CalculateTotals();
-            //    // auto-adjust the ID column width based on text
-            //    listViewDataList.Columns[0].Width = -1;
-            //}
+                CalculateTotals();
+                _listviewService.ColumnSetAutoAdjust(listViewDataList, 0);
+            }
         }
 
         private void CalculateTotals()
