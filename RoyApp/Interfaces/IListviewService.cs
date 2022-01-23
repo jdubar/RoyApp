@@ -9,6 +9,7 @@ namespace RoyApp.Interfaces
         void ColumnSetAutoAdjust(ListView listView, int col);
         void DeleteSelectedItems(object sender);
         string[] GetHeaderList(ListView listView);
-        List<List<string>> GetItemList(ListView listView);
+        //List<List<string>> GetItemList(ListView listView);
+        string GetItemList(ListView listView);
     }
 }

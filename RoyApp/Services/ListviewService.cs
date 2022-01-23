@@ -1,12 +1,14 @@
 ﻿using RoyApp.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace RoyApp.Services
 {
     public class ListviewService : IListviewService
     {
+        private const string SEPARATOR = ",";
         public string[] GetHeaderList(ListView listView)
         {
             return listView.Columns
@@ -15,19 +17,34 @@ namespace RoyApp.Services
                         .ToArray();
         }
 
-        public List<List<string>> GetItemList(ListView listView)
+        //public List<List<string>> GetItemList(ListView listView)
+        //{
+        //    List<List<string>> list = new List<List<string>>();
+        //    for (int i = 0; i < listView.Items.Count; i++)
+        //    {
+        //        List<string> subs = new List<string>();
+        //        for (int j = 0; j < listView.Items[i].SubItems.Count; j++)
+        //        {
+        //            subs.Add(listView.Items[i].SubItems[j].Text);
+        //        }
+        //        list.Add(subs);
+        //    }
+        //    return list;
+        //}
+
+        public string GetItemList(ListView listView)
         {
-            List<List<string>> list = new List<List<string>>();
+            var allItems = new StringBuilder("");
             for (int i = 0; i < listView.Items.Count; i++)
             {
-                List<string> subs = new List<string>();
+                var lineOfItems = new StringBuilder("");
                 for (int j = 0; j < listView.Items[i].SubItems.Count; j++)
                 {
-                    subs.Add(listView.Items[i].SubItems[j].Text);
+                    lineOfItems.Append(listView.Items[i].SubItems[j].Text + SEPARATOR);
                 }
-                list.Add(subs);
+                _ = allItems.AppendLine(lineOfItems.ToString());
             }
-            return list;
+            return allItems.ToString();
         }
 
         public void DeleteSelectedItems(object sender)

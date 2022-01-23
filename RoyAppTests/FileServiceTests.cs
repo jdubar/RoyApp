@@ -1,6 +1,7 @@
 ﻿using Moq;
 using RoyApp.Interfaces;
 using RoyApp.Services;
+using System.Collections.Generic;
 using Xunit;
 
 namespace RoyApp.Tests
@@ -52,6 +53,15 @@ namespace RoyApp.Tests
 
             // Assert
             Assert.False(fs.WriteLine(filePath, headers));
+        }
+
+        [Theory]
+        [InlineData(@"C:\test.csv", new string[] { "id", "bedtime", "waketime" }, new List<List<string>> { "1", "10:00 PM", "8:00 AM" })]
+        public void WriteDataToFile_Should_WriteToFile(string filePath, string[] headers, List<List<string>> itemList)
+        {
+            // Arrange
+            var mock = new Mock<IFileService>();
+            mock.Setup(_ => _.)
         }
     }
 }

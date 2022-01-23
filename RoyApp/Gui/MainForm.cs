@@ -1,8 +1,8 @@
-﻿using RoyApp.Interfaces;
+﻿using RoyApp.Gui.Components;
+using RoyApp.Interfaces;
 using RoyApp.Services;
 using RoyApp.Wrappers;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace RoyApp
@@ -12,7 +12,6 @@ namespace RoyApp
         private readonly IDataService _dataService;
         private readonly IListviewService _listviewService;
         private readonly IMessageBoxService _messageBoxService;
-        private const string csvExt = "csv files (*.csv)|*.csv";
 
         public MainForm(IDataService dataService, IListviewService listviewService, IMessageBoxService messageBoxService)
         {
@@ -84,7 +83,7 @@ namespace RoyApp
 
         private void Export_OnClick(object sender, EventArgs e)
         {
-            var filePath = ShowSaveDialog();
+            var filePath = new ViewDialog(new DialogWrapper()).ShowSaveDialog();
             if (filePath != null)
             {
                 try
@@ -104,28 +103,28 @@ namespace RoyApp
 
         private void Import_OnClick(object sender, EventArgs e)
         {
-            var fileStream = ShowOpenDialog();
-            if (fileStream != null)
-            {
-                ClearAllData();
+            //var fileStream = ShowOpenDialog();
+            //if (fileStream != null)
+            //{
+            //    ClearAllData();
 
-                using StreamReader reader = new StreamReader(fileStream);
-                // skip the header line
-                reader.ReadLine();
-                string currentLine;
+            //    using StreamReader reader = new StreamReader(fileStream);
+            //    // skip the header line
+            //    reader.ReadLine();
+            //    string currentLine;
 
-                // currentLine will be null when the StreamReader reaches the end of file
-                while ((currentLine = reader.ReadLine()) != null)
-                {
-                    string[] row = _dataService.SplitLineData(currentLine);
-                    var listViewItem = new ListViewItem(row);
-                    listViewDataList.Items.Add(listViewItem);
-                }
+            //    // currentLine will be null when the StreamReader reaches the end of file
+            //    while ((currentLine = reader.ReadLine()) != null)
+            //    {
+            //        string[] row = _dataService.SplitLineData(currentLine);
+            //        var listViewItem = new ListViewItem(row);
+            //        listViewDataList.Items.Add(listViewItem);
+            //    }
 
-                CalculateTotals();
-                // auto-adjust the ID column width based on text
-                listViewDataList.Columns[0].Width = -1;
-            }
+            //    CalculateTotals();
+            //    // auto-adjust the ID column width based on text
+            //    listViewDataList.Columns[0].Width = -1;
+            //}
         }
 
         private void CalculateTotals()
@@ -163,40 +162,6 @@ namespace RoyApp
             BedtimeDecInForm = "";
             WaketimeEnteredInForm = "";
             WaketimeDecInForm = "";
-        }
-
-        private Stream ShowOpenDialog()
-        {
-            using OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = "";
-            openFileDialog.Filter = csvExt;
-            openFileDialog.FilterIndex = 2;
-            openFileDialog.RestoreDirectory = true;
-
-            return openFileDialog.ShowDialog() switch
-            {
-                DialogResult.OK => openFileDialog.OpenFile(),
-                _ => null,
-            };
-        }
-
-        private string ShowSaveDialog()
-        {
-            using SaveFileDialog exportFileDialog = new SaveFileDialog();
-            exportFileDialog.Filter = csvExt;
-            exportFileDialog.FilterIndex = 2;
-            exportFileDialog.RestoreDirectory = true;
-
-            Stream fileStream;
-            using var stream = fileStream = exportFileDialog.OpenFile();
-            switch (exportFileDialog.ShowDialog())
-            {
-                case DialogResult.OK when stream != null:
-                    fileStream.Close();
-                    return exportFileDialog.FileName;
-                default:
-                    return null;
-            }
         }
 
         private void DataList_DeleteItem(object sender, KeyEventArgs e)
