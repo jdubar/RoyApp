@@ -24,7 +24,7 @@ namespace RoyApp.Tests
         }
 
         [Fact]
-        public void WriteLine_Should_WriteToFile()
+        public void WriteHeader_Should_WriteToFile()
         {
             // Arrange
             string[] headers = { "id", "data1", "data2" };
@@ -40,7 +40,7 @@ namespace RoyApp.Tests
         }
 
         [Fact]
-        public void WriteLine_ShouldNot_WriteToFile()
+        public void WriteHeader_ShouldNot_WriteToFile()
         {
             // Arrange
             string[] headers = { "id", "data1", "data2" };
@@ -55,13 +55,36 @@ namespace RoyApp.Tests
             Assert.False(fs.WriteHeader(filePath, headers));
         }
 
-        //[Theory]
-        //[InlineData(@"C:\test.csv", new string[] { "id", "bedtime", "waketime" }, new List<List<string>> { "1", "10:00 PM", "8:00 AM" })]
-        //public void WriteDataToFile_Should_WriteToFile(string filePath, string[] headers, List<List<string>> itemList)
-        //{
-        //    // Arrange
-        //    var mock = new Mock<IFileService>();
-        //    mock.Setup(_ => _.)
-        //}
+        [Fact]
+        public void WriteData_Should_WriteToFile()
+        {
+            // Arrange
+            string dataLine = "aaa, 1234, 12.57, 1235, 12.58, 0.01";
+            string filePath = @"C:\test.csv";
+            var mock = new Mock<IFileService>();
+            mock.Setup(_ => _.WriteData(filePath, dataLine)).Returns(true);
+
+            // Act
+            var fs = new FileService(mock.Object);
+
+            // Assert
+            Assert.True(fs.WriteData(filePath, dataLine));
+        }
+
+        [Fact]
+        public void WriteData_ShouldNot_WriteToFile()
+        {
+            // Arrange
+            string dataLine = "aaa, 1234, 12.57, 1235, 12.58, 0.01";
+            string filePath = @"C:\test.csv";
+            var mock = new Mock<IFileService>();
+            mock.Setup(_ => _.WriteData(filePath, dataLine)).Returns(false);
+
+            // Act
+            var fs = new FileService(mock.Object);
+
+            // Assert
+            Assert.False(fs.WriteData(filePath, dataLine));
+        }
     }
 }
