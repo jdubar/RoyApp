@@ -133,6 +133,23 @@ namespace RoyApp.Tests
         }
 
         [Fact]
+        public void WriteDataToFile_ShouldPass()
+        {
+            // Arrange
+            string filePath = @"C:\test.csv";
+            string[] headers = { "id", "data1", "data2" };
+            string itemList = "aaa, 1234, 12.57, 1235, 12.58, 0.01";
+            var mock = new Mock<IFileService>();
+            var fileService = new FileService(mock.Object);
+
+            // Act
+            var exception = Record.Exception(() => fileService.WriteDataToFile(filePath, headers, itemList));
+
+            // Assert
+            Assert.Null(exception);
+        }
+
+        [Fact]
         public void ReadImportData_Should_ReadData()
         {
             // Arrange
