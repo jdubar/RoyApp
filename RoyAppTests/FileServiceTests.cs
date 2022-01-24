@@ -110,13 +110,12 @@ namespace RoyApp.Tests
             }
         }
 
-        [Fact]
-        public void WriteDataToFile_ShouldFail_EmptyHeaderList()
+        [Theory]
+        [InlineData(@"C:\test.csv", new string[] { }, "aaa, 1234, 12.57, 1235, 12.58, 0.01")]
+        [InlineData(@"C:\test.csv", new string[] { null }, "aaa, 1234, 12.57, 1235, 12.58, 0.01")]
+        public void WriteDataToFile_ShouldFail_EmptyHeaderList(string filePath, string[] headers, string itemList)
         {
             // Arrange
-            string filePath = @"C:\test.csv";
-            string[] headers = { };
-            string itemList = "aaa, 1234, 12.57, 1235, 12.58, 0.01";
             string paramName = "headers";
             var mock = new Mock<IFileService>();
             var fileService = new FileService(mock.Object);
