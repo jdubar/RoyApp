@@ -18,9 +18,14 @@ namespace RoyApp.Services
 
         public void WriteDataToFile(string filePath, string[] headers, string itemList)
         {
-            if (headers?.Length != 6)
+            if (string.IsNullOrEmpty(filePath))
             {
-                throw new ArgumentNullException(nameof(headers));
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            if (headers.Length != 6)
+            {
+                throw new ArgumentException("incorrect number of headers");
             }
 
             if (string.IsNullOrEmpty(itemList))
