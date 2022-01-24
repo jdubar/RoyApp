@@ -18,14 +18,14 @@ namespace RoyApp.Services
 
         public void WriteDataToFile(string filePath, string[] headers, string itemList)
         {
-            if (itemList?.Any() != true)
-            {
-                throw new ArgumentNullException(nameof(itemList));
-            }
-
             if (headers?.Any() != true)
             {
                 throw new ArgumentNullException(nameof(headers));
+            }
+
+            if (string.IsNullOrEmpty(itemList))
+            {
+                throw new ArgumentNullException(nameof(itemList));
             }
 
             _fileService.WriteHeader(filePath, headers);

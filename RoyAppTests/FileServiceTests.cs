@@ -1,6 +1,7 @@
 ﻿using Moq;
 using RoyApp.Interfaces;
 using RoyApp.Services;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -85,6 +86,68 @@ namespace RoyApp.Tests
 
             // Assert
             Assert.False(fs.WriteData(filePath, dataLine));
+        }
+
+        [Fact]
+        public void WriteDataToFile_ShouldFail_NullItemList()
+        {
+            // Arrange
+            string filePath = @"C:\test.csv";
+            string[] headers = { "id", "data1", "data2" };
+            string itemList = null;
+            string paramName = "itemList";
+            var mock = new Mock<IFileService>();
+            var fileService = new FileService(mock.Object);
+
+            // Act & Assert
+            try
+            {
+                fileService.WriteDataToFile(filePath, headers, itemList);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.Equal(paramName, ex.ParamName);
+            }
+        }
+
+        [Fact]
+        public void WriteDataToFile_ShouldFail_EmptyHeaderList()
+        {
+            // Arrange
+            string filePath = @"C:\test.csv";
+            string[] headers = { };
+            string itemList = "aaa, 1234, 12.57, 1235, 12.58, 0.01";
+            string paramName = "headers";
+            var mock = new Mock<IFileService>();
+            var fileService = new FileService(mock.Object);
+
+            // Act & Assert
+            try
+            {
+                fileService.WriteDataToFile(filePath, headers, itemList);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.Equal(paramName, ex.ParamName);
+            }
+        }
+
+        [Fact]
+        public void ReadImportData_Should_ReadData()
+        {
+            // Arrange
+            string[] fakeRow = { "id", "data1", "data2" };
+            List<string[]> fakeDataList = new List<string[]> { fakeRow, fakeRow, fakeRow };
+            string fakeFilePath = @"C:\test.csv";
+            var mock = new Mock<IFileService>();
+            mock.Setup(fileService => fileService.ReadImportData(fakeFilePath)).Returns(fakeDataList);
+
+            // Act
+            var fs = new FileService(mock.Object);
+            var actual = fs.ReadImportData(fakeFilePath);
+
+            // Assert
+            Assert.Equal(fakeRow, actual[0]);
         }
     }
 }
