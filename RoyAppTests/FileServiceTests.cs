@@ -113,6 +113,7 @@ namespace RoyApp.Tests
         [Theory]
         [InlineData(@"C:\test.csv", new string[] { }, "aaa, 1234, 12.57, 1235, 12.58, 0.01")]
         [InlineData(@"C:\test.csv", new string[] { null }, "aaa, 1234, 12.57, 1235, 12.58, 0.01")]
+        [InlineData(@"C:\test.csv", new string[] { "id" }, "aaa, 1234, 12.57, 1235, 12.58, 0.01")]
         public void WriteDataToFile_ShouldFail_EmptyHeaderList(string filePath, string[] headers, string itemList)
         {
             // Arrange

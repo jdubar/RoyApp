@@ -18,7 +18,7 @@ namespace RoyApp.Services
 
         public void WriteDataToFile(string filePath, string[] headers, string itemList)
         {
-            if (headers?.Any() != true)
+            if (headers?.Length < 3)
             {
                 throw new ArgumentNullException(nameof(headers));
             }
