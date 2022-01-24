@@ -137,7 +137,7 @@ namespace RoyApp.Tests
         {
             // Arrange
             string filePath = @"C:\test.csv";
-            string[] headers = { "id", "data1", "data2", "data3", "data4", "data5" };
+            string[] headers = { "there", "are", "too", "many", "headers", "in", "this", "array" };
             string itemList = "aaa, 1234, 12.57, 1235, 12.58, 0.01";
             string expected = "incorrect number of headers";
             var mock = new Mock<IFileService>();
