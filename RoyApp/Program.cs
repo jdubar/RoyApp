@@ -19,9 +19,8 @@ namespace RoyApp
             Application.SetCompatibleTextRenderingDefault(false);
             var dataService = new DataService();
             var listViewService = new ListviewService();
-            var messageBoxService = new MessageBoxService();
 
-            MainForm f1 = new MainForm(dataService, listViewService, messageBoxService)
+            MainForm f1 = new MainForm(dataService, listViewService)
             {
                 Text = Application.ProductName + " v" + Application.ProductVersion
             };

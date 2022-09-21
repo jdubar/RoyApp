@@ -1,5 +1,4 @@
 ﻿using RoyApp.Interfaces;
-using System.IO;
 using System.Windows.Forms;
 
 namespace RoyApp.Gui.Components

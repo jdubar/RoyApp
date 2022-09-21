@@ -11,14 +11,12 @@ namespace RoyApp
     {
         private readonly IDataService _dataService;
         private readonly IListviewService _listviewService;
-        private readonly IMessageBoxService _messageBoxService;
 
-        public MainForm(IDataService dataService, IListviewService listviewService, IMessageBoxService messageBoxService)
+        public MainForm(IDataService dataService, IListviewService listviewService)
         {
             InitializeComponent();
             _dataService = dataService;
             _listviewService = listviewService;
-            _messageBoxService = messageBoxService;
         }
 
         public string IdInForm
@@ -64,7 +62,8 @@ namespace RoyApp
             var duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
             if (duration == "-1")
             {
-                _messageBoxService.ValueMissing();
+                var messageBox = new ViewMessageBox(new MessageBoxService());
+                messageBox.ValueMissing();
                 return;
             }
 
@@ -83,6 +82,7 @@ namespace RoyApp
 
         private void Export_OnClick(object sender, EventArgs e)
         {
+            var messageBox = new ViewMessageBox(new MessageBoxService());
             var filePath = new ViewDialog(new DialogWrapper()).ShowSaveDialog();
             if (filePath != null)
             {
@@ -90,13 +90,13 @@ namespace RoyApp
                 {
                     var fileService = new FileService(new FileIoWrapper(_dataService));
                     fileService.WriteDataToFile(filePath,
-                            _listviewService.GetHeaderList(listViewDataList),
-                            _listviewService.GetItemList(listViewDataList));
-                    _messageBoxService.ExportSuccess();
+                    _listviewService.GetHeaderList(listViewDataList),
+                    _listviewService.GetItemList(listViewDataList));
+                    messageBox.ExportSuccess();
                 }
                 catch (Exception ex)
                 {
-                    _messageBoxService.Error(ex);
+                    messageBox.Error(ex);
                 }
             }
         }

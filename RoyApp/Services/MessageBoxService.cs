@@ -4,11 +4,14 @@ using System.Windows.Forms;
 
 namespace RoyApp.Services
 {
-    public class MessageBoxService : IMessageBoxService
+    public class ViewMessageBox
     {
+        private readonly IMessageBoxService _messageBox;
+        public ViewMessageBox(IMessageBoxService messageBox) => _messageBox = messageBox;
+
         public void Error(Exception ex)
         {
-            MessageBox.Show(ex.Message,
+            _messageBox.Show(ex.Message,
                             "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
@@ -16,7 +19,7 @@ namespace RoyApp.Services
 
         public void ExportSuccess()
         {
-            MessageBox.Show("File successfully exported!",
+            _messageBox.Show("File successfully exported!",
                             "Success",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
@@ -24,7 +27,7 @@ namespace RoyApp.Services
 
         public void ValueMissing()
         {
-            MessageBox.Show("Please enter a value",
+            _messageBox.Show("Please enter a value",
                             "Value missing",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
