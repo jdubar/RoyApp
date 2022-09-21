@@ -9,7 +9,7 @@ namespace RoyApp.Tests
     public class MessageBoxServiceTests
     {
         [Fact]
-        public void Test()
+        public void MessageBoxShouldValidateSut()
         {
             // Arrange
             var mockMsgBox = new Mock<IMessageBoxService>();

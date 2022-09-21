@@ -11,12 +11,14 @@ namespace RoyApp
     {
         private readonly IDataService _dataService;
         private readonly IListviewService _listviewService;
+        private readonly IMessageBoxService _messageBoxService;
 
-        public MainForm(IDataService dataService, IListviewService listviewService)
+        public MainForm(IDataService dataService, IListviewService listviewService, IMessageBoxService messageBoxService)
         {
             InitializeComponent();
             _dataService = dataService;
             _listviewService = listviewService;
+            _messageBoxService = messageBoxService;
         }
 
         public string IdInForm
@@ -62,8 +64,10 @@ namespace RoyApp
             var duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
             if (duration == "-1")
             {
-                var messageBox = new ViewMessageBox(new MessageBoxService());
-                messageBox.ValueMissing();
+                _messageBoxService.Show("Please enter a value",
+                                        "Value missing",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
                 return;
             }
 
@@ -82,7 +86,6 @@ namespace RoyApp
 
         private void Export_OnClick(object sender, EventArgs e)
         {
-            var messageBox = new ViewMessageBox(new MessageBoxService());
             var filePath = new ViewDialog(new DialogWrapper()).ShowSaveDialog();
             if (filePath != null)
             {
@@ -92,11 +95,17 @@ namespace RoyApp
                     fileService.WriteDataToFile(filePath,
                     _listviewService.GetHeaderList(listViewDataList),
                     _listviewService.GetItemList(listViewDataList));
-                    messageBox.ExportSuccess();
+                    _messageBoxService.Show("File successfully exported!",
+                                            "Success",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    messageBox.Error(ex);
+                    _messageBoxService.Show(ex.Message,
+                                            "Error",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
                 }
             }
         }
