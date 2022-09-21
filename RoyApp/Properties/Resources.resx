@@ -120,4 +120,10 @@
   <data name="filefilterExt" xml:space="preserve">
     <value>csv files (*.csv)|*.csv</value>
   </data>
+  <data name="MsgExportSuccess" xml:space="preserve">
+    <value>File successfully exported!</value>
+  </data>
+  <data name="MsgValueMissing" xml:space="preserve">
+    <value>Please enter a value</value>
+  </data>
 </root>

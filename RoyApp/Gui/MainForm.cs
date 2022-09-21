@@ -64,7 +64,7 @@ namespace RoyApp
             var duration = _dataService.TimeDuration(BedtimeDecInForm, WaketimeDecInForm).ToString();
             if (duration == "-1")
             {
-                _messageBoxService.Show("Please enter a value",
+                _messageBoxService.Show(Properties.Resources.MsgValueMissing,
                                         "Value missing",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Information);
@@ -79,10 +79,7 @@ namespace RoyApp
             ClearTextData();
         }
 
-        private void Clear_OnClick(object sender, EventArgs e)
-        {
-            ClearAllData();
-        }
+        private void Clear_OnClick(object sender, EventArgs e) => ClearAllData();
 
         private void Export_OnClick(object sender, EventArgs e)
         {
@@ -95,7 +92,7 @@ namespace RoyApp
                     fileService.WriteDataToFile(filePath,
                     _listviewService.GetHeaderList(listViewDataList),
                     _listviewService.GetItemList(listViewDataList));
-                    _messageBoxService.Show("File successfully exported!",
+                    _messageBoxService.Show(Properties.Resources.MsgExportSuccess,
                                             "Success",
                                             MessageBoxButtons.OK,
                                             MessageBoxIcon.Information);

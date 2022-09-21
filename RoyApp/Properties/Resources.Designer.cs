@@ -68,5 +68,23 @@ namespace RoyApp.Properties {
                 return ResourceManager.GetString("filefilterExt", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File successfully exported!.
+        /// </summary>
+        internal static string MsgExportSuccess {
+            get {
+                return ResourceManager.GetString("MsgExportSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a value.
+        /// </summary>
+        internal static string MsgValueMissing {
+            get {
+                return ResourceManager.GetString("MsgValueMissing", resourceCulture);
+            }
+        }
     }
 }
