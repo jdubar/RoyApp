@@ -14,9 +14,6 @@ namespace RoyApp.Services
         private readonly IMessageBoxService _messageBox;
         public Sut(IMessageBoxService messageBox) => _messageBox = messageBox;
 
-        public void MessageBoxSut()
-        {
-            _messageBox.Show("Text", "Title", MessageBoxButtons.OK, MessageBoxIcon.None);
-        }
+        public DialogResult MessageBoxSut() => _messageBox.Show("Text", "Title", MessageBoxButtons.OK, MessageBoxIcon.None);
     }
 }

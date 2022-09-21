@@ -23,5 +23,21 @@ namespace RoyApp.Tests
             // Verify
             mockMsgBox.Verify();
         }
+
+        [Fact]
+        public void MessageBoxShouldValidateSutResult()
+        {
+            // Arrange
+            var mockMsgBox = new Mock<IMessageBoxService>();
+            mockMsgBox.Setup(m => m.Show("Text", "Title", MessageBoxButtons.OK, MessageBoxIcon.None)).Returns(DialogResult.None);
+
+            var sut = new Sut(mockMsgBox.Object);
+
+            // Act
+            var actual = sut.MessageBoxSut();
+
+            // Verify
+            Assert.True(Equals(DialogResult.None, actual));
+        }
     }
 }
