@@ -20,12 +20,12 @@ namespace RoyApp.Services
         public string GetItemList(ListView listView)
         {
             var allItems = new StringBuilder("");
-            for (int i = 0; i < listView.Items.Count; i++)
+            for (var i = 0; i < listView.Items.Count; i++)
             {
                 var lineOfItems = new StringBuilder("");
-                for (int j = 0; j < listView.Items[i].SubItems.Count; j++)
+                for (var j = 0; j < listView.Items[i].SubItems.Count; j++)
                 {
-                    lineOfItems.Append(listView.Items[i].SubItems[j].Text + SEPARATOR);
+                    _ = lineOfItems.Append($"{listView.Items[i].SubItems[j].Text}{SEPARATOR}");
                 }
                 _ = allItems.AppendLine(lineOfItems.ToString());
             }
@@ -43,12 +43,12 @@ namespace RoyApp.Services
         public void AddItemToListView(ListView listView, string[] row)
         {
             var listViewItem = new ListViewItem(row);
-            listView.Items.Add(listViewItem);
+            _ = listView.Items.Add(listViewItem);
         }
 
         public void AddListOfItemsToListView(ListView listView, List<string[]> dataList)
         {
-            foreach (string[] row in dataList)
+            foreach (var row in dataList)
             {
                 AddItemToListView(listView, row);
             }
@@ -56,7 +56,7 @@ namespace RoyApp.Services
 
         public void ColumnSetAutoAdjust(ListView listView, int col)
         {
-            // auto-adjust the ID column width based on text
+            // Auto-adjust the ID column width based on text
             listView.Columns[col].Width = -1;
         }
     }
